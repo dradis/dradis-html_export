@@ -13,7 +13,7 @@ class DradisTasks < Thor
       logger = Logger.new(STDOUT)
       logger.level = Logger::DEBUG
 
-      doc = HTMLExport::Processor.generate(:logger => logger)
+      doc = HtmlExport::Processor.generate(:logger => logger)
       File.open(output_file, 'w') do |f|
         f << doc
       end

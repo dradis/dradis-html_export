@@ -1,5 +1,5 @@
 module Dradis
-  module HTMLExport
+  module HtmlExport
     class Processor
       def self.generate(params={})
         category_name = params.fetch(:category_name, Configuration.category)

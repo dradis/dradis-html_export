@@ -1,5 +1,5 @@
 module Dradis
-  module HTMLExport
+  module HtmlExport
     module VERSION #:nodoc:
       MAJOR = 3
       MINOR = 0
