@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-version = File.read(File.expand_path('../../dradis/DRADIS_VERSION', __FILE__)).strip
+require File.expand_path('../lib/dradis/html_export/version', __FILE__)
+version = Dradis::HtmlExport::VERSION.to_s
 
 Gem::Specification.new do |gem|
   gem.platform      = Gem::Platform::RUBY
