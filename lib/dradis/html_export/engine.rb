@@ -20,7 +20,7 @@ module Dradis
       Dradis::Core::Plugins::register(Dradis::HtmlExport)
 
       initializer "dradis.html_export.init_category" do |app|
-        Dradis::Core::Category.find_or_create_by_name( HtmlExport::Configuration.category )
+        Dradis::Core::Category.find_or_create_by_name( HtmlExport::Configuration.category ) if Dradis::Configuration.table_exists?
       end
     end
   end
