@@ -1,6 +1,9 @@
 HTML export plugin for the Dradis Framework
 ===========================================
 
+[![Build Status](https://secure.travis-ci.org/dradis/dradis-html_export.png?branch=master)](http://travis-ci.org/spree/spree_paypal_express)
+
+
 This plugin generates an HTML report for the notes in your [Dradis Framework](https://github.com/dradis/dradisframework) repository.
 
 The plugin requires Dradis 3.0 or higher.
