@@ -4,7 +4,7 @@ module Dradis
       class Engine < ::Rails::Engine
 
         # Standard Rails Engine stuff
-        isolate_namespace Dradis::HtmlExport
+        isolate_namespace Dradis::Plugins::HtmlExport
         engine_name 'dradis_html_export'
 
         # use rspec for tests
@@ -13,16 +13,14 @@ module Dradis
         end
 
         # Connect to the Framework
-        include Dradis::Core::Plugins::Base
+        include Dradis::Plugins::Base
 
-        plugin_name 'HTML export'
+        # plugin_name 'HTML export'
         provides :export
 
-        Dradis::Core::Plugins::register(Dradis::HtmlExport)
-
-        initializer "dradis.html_export.init_category" do |app|
-          Dradis::Core::Category.find_or_create_by_name( HtmlExport::Configuration.category ) if Dradis::Configuration.table_exists?
-        end
+        # initializer "dradis.html_export.init_category" do |app|
+        #   Dradis::Core::Category.find_or_create_by_name( Configuration.category ) if Dradis::Core::Configuration.table_exists?
+        # end
 
         # # TODO: could we use this instead?
         # # https://github.com/spree/spree_analytics/blob/079949fd0e6d9ec87eefd8e3b9c70b5aa3bf25d3/lib/spree_analytics/engine.rb
