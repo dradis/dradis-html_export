@@ -1,3 +1,3 @@
 Dradis::Plugins::HtmlExport::Engine.routes.draw do
-  # root to: 'base#index'
+  root to: 'base#index'
 end

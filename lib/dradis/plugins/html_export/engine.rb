@@ -17,10 +17,14 @@ module Dradis
 
         # plugin_name 'HTML export'
         provides :export
+        description 'Generate advanced HTML reports'
 
-        # initializer "dradis.html_export.init_category" do |app|
-        #   Dradis::Core::Category.find_or_create_by_name( Configuration.category ) if Dradis::Core::Configuration.table_exists?
-        # end
+
+        initializer 'dradis-html_export.mount_engine' do
+          Rails.application.routes.append do
+            mount Dradis::Plugins::HtmlExport::Engine => '/export/html'
+          end
+        end
 
         # # TODO: could we use this instead?
         # # https://github.com/spree/spree_analytics/blob/079949fd0e6d9ec87eefd8e3b9c70b5aa3bf25d3/lib/spree_analytics/engine.rb
@@ -33,7 +37,6 @@ module Dradis
         #   # setting :template, :default => Rails.root.join( 'vendor', 'plugins', 'html_export', 'template.html.erb' )
         #   setting :template, :default => '/Users/etd/dradis/git/dradis-html_export/template.html.erb'
         # end
-
       end
     end
   end
