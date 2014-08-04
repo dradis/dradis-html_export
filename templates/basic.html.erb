@@ -24,7 +24,7 @@
 
     <% for note in notes %>
       <% if defined?(RedCloth) %>
-    <div class="note"><%= RedCloth.new(note.text, [:filter_html]).to_html %></div>
+    <div class="note"><%= markup(note.text) %></div>
       <% else %>
     <div class="note"><%= note.text %></div>
       <% end %>
@@ -32,7 +32,7 @@
 
     <div id="footer">
       <br/>
-      effective information sharing<br/>
+      effective collaboration<br/>
       <a href="http://dradisframework.org">http://dradisframework.org</a>
     </div>
   </body>
