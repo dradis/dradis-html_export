@@ -23,6 +23,10 @@ Gem::Specification.new do |spec|
   # gem.add_dependency 'dradis_core', version
   spec.add_dependency 'dradis-plugins', '~> 3.0'
 
+  # Note markup
+  spec.add_dependency 'rails_autolink', '~> 1.1'
+  spec.add_dependency 'RedCloth', '4.2.9'
+
   # gem.add_development_dependency 'capybara', '~> 1.1.3'
   # gem.add_development_dependency 'database_cleaner'
   # gem.add_development_dependency 'factory_girl_rails'
