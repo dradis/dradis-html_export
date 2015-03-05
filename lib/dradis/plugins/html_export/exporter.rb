@@ -19,8 +19,8 @@ module Dradis
 
           # Build title
           title = community_edition ? "Dradis Framework" : "Dradis Professional Edition"
-          title << "- v"
-          title << community_edition ? Dradis::Core::VERSION::STRING : Core::Pro::VERSION::STRING
+          title += "- v"
+          title += community_edition ? Dradis::Core::VERSION::STRING : Core::Pro::VERSION::STRING
           logger.debug{ "Report title: #{title}"}
 
           # Prepare notes
