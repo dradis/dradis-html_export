@@ -14,7 +14,7 @@ module Dradis
           logger              = args.fetch(:logger, Rails.logger)
           template_path       = args.fetch(:template)
           template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
-          project             = args[:project]
+          project             = Project.where(id: args[:project].to_i).first rescue nil
           reporting_cat       = args.fetch(:category, model_namespace::Category.report)
 
           # Build title

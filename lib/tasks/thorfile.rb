@@ -21,7 +21,7 @@ class HtmlExportTasks < Thor
 
     if defined?(Dradis::Pro)
       detect_and_set_project_scope
-      opts[:project] = Project.where(id: ENV['PROJECT_ID'].to_i).first
+      opts[:project] = ENV['PROJECT_ID']
     end
 
 
