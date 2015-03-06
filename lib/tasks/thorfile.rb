@@ -19,11 +19,7 @@ class HtmlExportTasks < Thor
     opts[:logger] = logger
     content_service = nil
 
-    if defined?(Dradis::Pro)
-      detect_and_set_project_scope
-      opts[:project] = ENV['PROJECT_ID']
-    end
-
+    detect_and_set_project_scope if defined?(Dradis::Pro)
 
     report_path = options.output || Rails.root
     unless report_path.to_s =~ /\.html\z/
