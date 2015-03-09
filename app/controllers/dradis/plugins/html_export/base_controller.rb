@@ -1,9 +1,7 @@
 module Dradis
   module Plugins
     module HtmlExport
-      BASE_CONTROLLER = Dradis.constants.include?(:Pro) ? ProjectScopedController : Dradis::Frontend::AuthenticatedController
-
-      class BaseController < BASE_CONTROLLER
+      class BaseController < Dradis::Plugins::Export::BaseController
         # This method cycles throw the notes in the reporting category and creates
         # a simple HTML report with them.
         #
