@@ -17,9 +17,7 @@ module Dradis
           reporting_cat       = args.fetch(:category, model_namespace::Category.report)
 
           # Build title
-          title = community_edition ? "Dradis Framework" : "Dradis Professional Edition"
-          title += "- v"
-          title += community_edition ? Dradis::Core::VERSION::STRING : Core::Pro::VERSION::STRING
+          title = community_edition ? Core::VERSION::string : Core::Pro::VERSION::string
           logger.debug{ "Report title: #{title}"}
 
           # Prepare notes
