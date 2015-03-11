@@ -9,27 +9,20 @@ module Dradis
         include ::ActionView::Helpers::UrlHelper
 
         def export(args = {})
-          community_edition   = Dradis.constants.include?(:Core)
-          model_namespace     = community_edition ? Dradis::Core : nil
-          logger              = args.fetch(:logger, Rails.logger)
           template_path       = args.fetch(:template)
           template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
-          reporting_cat       = args.fetch(:category, model_namespace::Category.report)
 
           # Build title
-          title = community_edition ? Core::VERSION::string : Core::Pro::VERSION::string
+          title = Dradis.constants.include?(:Core) ? Core::VERSION::string : Core::Pro::VERSION::string
           logger.debug{ "Report title: #{title}"}
 
           # Prepare notes
-          notes = model_namespace::Note.where(category_id: reporting_cat)
-          logger.debug{ "Found #{notes.count} notes assigned to #{reporting_cat.name}."}
+          notes = content_service.all_notes
+          logger.debug{ "Found #{notes.count} notes assigned to the reporting category."}
 
           # Prepare issues
-          issuelib = model_namespace::Node.issue_library
-          if issuelib
-            note_ids = issuelib.notes.map(&:id)
-            issues = model_namespace::Issue.find(note_ids)
-
+          issues = content_service.all_issues
+          if issues
             # Sort our issues based on the ReportTemplateProperties rules.
             if template_properties && template_properties.sort_field
               sort_by = template_properties.sort_field
@@ -45,7 +38,7 @@ module Dradis
             end
 
             # FIXME: This is an ugly piece of code
-            nodes = model_namespace::Evidence.where(issue_id: note_ids).includes(:node).collect(&:node).uniq
+            nodes = issues.map(&:evidence).map(&:node).uniq rescue []
 
             logger.debug{ "Found #{issues.count} issues affecting #{nodes.count} nodes" }
           else
