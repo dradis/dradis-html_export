@@ -13,7 +13,6 @@ require 'factory_girl_rails'
 
 
 RSpec.configure do |config|
-  config.color = true
 
   # Capybara javascript drivers require transactional fixtures set to false,
   # and we just use DatabaseCleaner to cleanup after each test instead.
@@ -21,7 +20,6 @@ RSpec.configure do |config|
   # setup a test will be available to the browser, which runs under a seperate
   # server instance.
   config.use_transactional_fixtures = false
-
 
   config.before(:each) do
     if example.metadata[:js]
