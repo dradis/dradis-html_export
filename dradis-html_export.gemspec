@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # gem.add_dependency 'dradis_core', version
-  spec.add_dependency 'dradis-plugins', '~> 3.0'
+  spec.add_dependency 'dradis-plugins', '~> 3.3'
 
   # Note markup
   spec.add_dependency 'rails_autolink', '~> 1.1'
