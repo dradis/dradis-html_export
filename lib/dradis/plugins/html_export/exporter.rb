@@ -13,7 +13,7 @@ module Dradis
           template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
           project             = args.key?(:project_id) ? Project.find_by_id(args[:project_id]) : nil
 
-          # Build title and project data
+          # Build title
           title = Dradis.constants.include?(:Core) ? Dradis::Core::VERSION::STRING : Core::Pro::VERSION::string
           logger.debug{ "Report title: #{title}"}
 
