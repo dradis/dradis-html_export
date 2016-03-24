@@ -14,7 +14,11 @@ module Dradis
           project             = args.key?(:project_id) ? Project.find_by_id(args[:project_id]) : nil
 
           # Build title
-          title = Dradis.constants.include?(:Core) ? Dradis::Core::VERSION::STRING : Core::Pro::VERSION::string
+          title = if Dradis.constants.include?(:Pro)
+                    "Dradis Professional Edition v#{Dradis::Pro.version}"
+                  else
+                    "Dradis Community Edition v#{Dradis::CE.version}"
+                  end
           logger.debug{ "Report title: #{title}"}
 
           # Prepare notes
