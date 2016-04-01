@@ -1,11 +1,11 @@
 class HtmlExportTasks < Thor
-  include Core::Pro::ProjectScopedTask if defined?(::Core::Pro)
+  include Dradis::Plugins::thor_helper_module.to_s.constantize
 
   namespace     "dradis:plugins:html"
 
   desc 'export', 'export the current repository structure as an HTML document'
-  method_option :output, type: :string, desc: "the report file to create (if ends in .html), or directory to create it in"
-  method_option :template, type: :string, desc: "the template file to use. If not provided the value of the 'advanced_word_export:docx' setting will be used."
+  method_option :output,   required: false, type: :string, desc: "the report file to create (if ends in .html), or directory to create it in"
+  method_option :template, required: true, type: :string, desc: "the template file to use. If not provided the value of the 'advanced_word_export:docx' setting will be used."
 
   def export
     require 'config/environment'
@@ -18,8 +18,6 @@ class HtmlExportTasks < Thor
     logger.level = Logger::DEBUG
     opts[:logger] = logger
     content_service = nil
-
-    detect_and_set_project_scope if defined?(Dradis::Pro)
 
     report_path = options.output || Rails.root
     unless report_path.to_s =~ /\.html\z/
@@ -34,7 +32,12 @@ class HtmlExportTasks < Thor
       opts[:template] = template
     end
 
-    doc = Dradis::Plugins::HtmlExport::Exporter.new.export(opts)
+    detect_and_set_project_scope
+    exporter = Dradis::Plugins::HtmlExport::Exporter.new(
+      content_service: Dradis::Plugins::ContentService.new(plugin: Dradis::Plugins::HtmlExport)
+    )
+
+    doc = exporter.export(opts)
 
     File.open(report_path, 'w') do |f|
       f << doc
