@@ -42,8 +42,9 @@ module Dradis
               logger.debug{ "Done." }
             end
 
-            # FIXME: This is an ugly piece of code
-            nodes = issues.map(&:evidence).map(&:node).uniq rescue []
+            # FIXME: This is an ugly piece of code and the list of nodes should
+            # come from the ContentService.
+            nodes = issues.map(&:evidence).flatten.map(&:node).uniq
 
             logger.debug{ "Found #{issues.count} issues affecting #{nodes.count} nodes" }
           else
