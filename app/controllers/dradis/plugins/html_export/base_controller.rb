@@ -10,11 +10,10 @@ module Dradis
 
           # these come from Export#create
           export_manager_hash = session[:export_manager].with_indifferent_access
-          exporter = Dradis::Plugins::HtmlExport::Exporter.new
+          exporter            = Dradis::Plugins::HtmlExport::Exporter.new
+          html                = exporter.export(export_manager_hash)
 
-          doc = exporter.export(export_manager_hash)
-
-          render type: 'text/html', text: doc
+          render type: 'text/html', text: html
         end
       end
 
