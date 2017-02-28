@@ -22,6 +22,7 @@ module Dradis
           logger.debug{ "Report title: #{title}"}
 
           # Prepare notes
+          reporting_cat = content_service.report_category
           notes = content_service.all_notes
           logger.debug{ "Found #{notes.count} notes assigned to the reporting category."}
 
