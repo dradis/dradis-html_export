@@ -9,9 +9,8 @@ module Dradis
         include ::ActionView::Helpers::UrlHelper
 
         def export(args = {})
-          template_path       = args.fetch(:template)
+          template_path       = options.fetch(:template)
           template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
-          project             = args.key?(:project_id) ? Project.find_by_id(args[:project_id]) : nil
 
           # Build title
           title = if Dradis.constants.include?(:Pro)

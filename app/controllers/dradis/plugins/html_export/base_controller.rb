@@ -7,11 +7,8 @@ module Dradis
         #
         # It uses the template at: ./vendor/plugins/html_export/template.html.erb
         def index
-
-          # these come from Export#create
-          export_manager_hash = session[:export_manager].with_indifferent_access
-          exporter            = Dradis::Plugins::HtmlExport::Exporter.new
-          html                = exporter.export(export_manager_hash)
+          exporter = Dradis::Plugins::HtmlExport::Exporter.new(export_options)
+          html     = exporter.export
 
           render type: 'text/html', text: html
         end
