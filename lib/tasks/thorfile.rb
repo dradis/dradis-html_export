@@ -1,5 +1,5 @@
 class HtmlExportTasks < Thor
-  include Dradis::Plugins::thor_helper_module.to_s.constantize
+  include Rails.application.config.dradis.thor_helper_module
 
   namespace     "dradis:plugins:html"
 
@@ -13,11 +13,10 @@ class HtmlExportTasks < Thor
     # The options we'll end up passing to the Processor class
     opts = {}
 
-    STDOUT.sync = true
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::DEBUG
+    STDOUT.sync   = true
+    logger        = Logger.new(STDOUT)
+    logger.level  = Logger::DEBUG
     opts[:logger] = logger
-    content_service = nil
 
     report_path = options.output || Rails.root
     unless report_path.to_s =~ /\.html\z/
@@ -26,26 +25,22 @@ class HtmlExportTasks < Thor
       report_path = File.join(report_path, "dradis-report_#{date}_#{sequence + 1}.html")
     end
 
-
     if template = options.template
       shell.error("Template file doesn't exist") && exit(1) unless File.exists?(template)
       opts[:template] = template
     end
 
     detect_and_set_project_scope
-    exporter = Dradis::Plugins::HtmlExport::Exporter.new(
-      content_service: Dradis::Plugins::ContentService.new(plugin: Dradis::Plugins::HtmlExport)
-    )
 
-    doc = exporter.export(opts)
+    exporter = Dradis::Plugins::HtmlExport::Exporter.new(opts)
+    html = exporter.export
 
     File.open(report_path, 'w') do |f|
-      f << doc
+      f << html
     end
 
     logger.info{ "Report file created at:\n\t#{report_path}" }
     logger.close
   end
-
 
 end

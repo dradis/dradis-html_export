@@ -9,9 +9,8 @@ module Dradis
         include ::ActionView::Helpers::UrlHelper
 
         def export(args = {})
-          template_path       = args.fetch(:template)
+          template_path       = options.fetch(:template)
           template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
-          project             = args.key?(:project_id) ? Project.find_by_id(args[:project_id]) : nil
 
           # Build title
           title = if Dradis.constants.include?(:Pro)
@@ -22,6 +21,7 @@ module Dradis
           logger.debug{ "Report title: #{title}"}
 
           # Prepare notes
+          reporting_cat = content_service.report_category
           notes = content_service.all_notes
           logger.debug{ "Found #{notes.count} notes assigned to the reporting category."}
 
