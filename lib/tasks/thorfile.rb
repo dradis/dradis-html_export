@@ -13,11 +13,6 @@ class HtmlExportTasks < Thor
     # The options we'll end up passing to the Processor class
     opts = {}
 
-    STDOUT.sync   = true
-    logger        = Logger.new(STDOUT)
-    logger.level  = Logger::DEBUG
-    opts[:logger] = logger
-
     report_path = options.output || Rails.root
     unless report_path.to_s =~ /\.html\z/
       date      = DateTime.now.strftime("%Y-%m-%d")
@@ -27,12 +22,12 @@ class HtmlExportTasks < Thor
 
     if template = options.template
       shell.error("Template file doesn't exist") && exit(1) unless File.exists?(template)
-      opts[:template] = template
+      task_options[:template] = template
     end
 
     detect_and_set_project_scope
 
-    exporter = Dradis::Plugins::HtmlExport::Exporter.new(opts)
+    exporter = Dradis::Plugins::HtmlExport::Exporter.new(task_options)
     html = exporter.export
 
     File.open(report_path, 'w') do |f|
@@ -40,7 +35,6 @@ class HtmlExportTasks < Thor
     end
 
     logger.info{ "Report file created at:\n\t#{report_path}" }
-    logger.close
   end
 
 end
