@@ -10,7 +10,7 @@ module Dradis
           exporter = Dradis::Plugins::HtmlExport::Exporter.new(export_options)
           html     = exporter.export
 
-          render type: 'text/html', text: html
+          render html: html.html_safe
         end
       end
 
