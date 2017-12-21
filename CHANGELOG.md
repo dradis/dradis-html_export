@@ -1,4 +1,4 @@
-## Dradis Framework 3.9 (XXX, 2017) ##
+## Dradis Framework 3.9 (January, 2018) ##
 
 *   Updated rendering html as in Rails 5.1 (`render html:`)
 
