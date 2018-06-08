@@ -35,7 +35,7 @@ module Dradis
               logger.debug{ "Template properties define a sort field: #{sort_by}. Sorting..." }
 
               # FIXME: Assume the Field :type is :number, so cast .to_f and sort
-              issues.sort! do |a, b|
+              issues.to_a.sort! do |a, b|
                 b.fields.fetch(sort_by, '0').to_f <=> a.fields.fetch(sort_by, '0').to_f
               end
 
