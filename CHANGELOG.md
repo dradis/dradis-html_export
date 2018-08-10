@@ -1,3 +1,7 @@
+## Dradis Framework 4.0 (August, 2018) ##
+
+*   Fix issue sorting
+
 ## Dradis Framework 3.9 (January, 2018) ##
 
 *   Updated rendering html as in Rails 5.1 (`render html:`)
