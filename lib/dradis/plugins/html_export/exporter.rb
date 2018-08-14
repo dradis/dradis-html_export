@@ -57,12 +57,14 @@ module Dradis
         end
 
         private
+
+        # FIXME This method is a behavioural duplicate of ApplicationHelper#markup
+        # from the main app, it would be better to re-use that code.
         def markup(text)
           return unless text.present?
 
           # escape HTML 'manually' instead of using RedCloth's "filter_html"
-          # option as the latter doesn't escape <code> tags for some reason,
-          # which exposes an XSS vulnerability
+          # for security reasons
           output = ERB::Util.html_escape(text.dup)
 
           Hash[ *text.scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect{ |str| str.strip } ].keys.each do |field|
