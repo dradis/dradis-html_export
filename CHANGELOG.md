@@ -1,7 +1,3 @@
-## Dradis Framework 3.11 (November, 2018) ##
-
-*   No changes.
-
 ## Dradis Framework 3.10 (August, 2018) ##
 
 *   Security fix: update RedCloth to 4.3.2
