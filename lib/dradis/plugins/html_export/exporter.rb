@@ -3,11 +3,6 @@ module Dradis
     module HtmlExport
 
       class Exporter < Dradis::Plugins::Export::Base
-        # Add auto_link support to the ERB processor (see rails_autolink)
-        include ::ActionView::Helpers::TextHelper
-        # For auto_link feature (requires #mail_to)
-        include ::ActionView::Helpers::UrlHelper
-
         def export(args = {})
           template_path       = options.fetch(:template)
           template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
@@ -39,7 +34,7 @@ module Dradis
                 b.fields.fetch(sort_by, '0').to_f <=> a.fields.fetch(sort_by, '0').to_f
               end
 
-              logger.debug{ "Done." }
+              logger.debug{ 'Done.' }
             end
 
             # FIXME: This is an ugly piece of code and the list of nodes should
@@ -48,30 +43,18 @@ module Dradis
 
             logger.debug{ "Found #{issues.count} issues affecting #{nodes.count} nodes" }
           else
-            logger.warning { "No issue library node found in this project" }
+            logger.warning { 'No issue library node found in this project' }
           end
 
-          # Render template
-          erb = ERB.new( File.read(template_path) )
-          erb.result( binding )
-        end
-
-        private
-
-        # FIXME This method is a behavioural duplicate of ApplicationHelper#markup
-        # from the main app, it would be better to re-use that code.
-        def markup(text)
-          return unless text.present?
-
-          # escape HTML 'manually' instead of using RedCloth's "filter_html"
-          # for security reasons
-          output = ERB::Util.html_escape(text.dup)
-
-          Hash[ *text.scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect{ |str| str.strip } ].keys.each do |field|
-            output.gsub!(/#\[#{Regexp.escape(field)}\]#[\r|\n]/, "h4. #{field}\n\n")
-          end
-
-          auto_link(RedCloth.new(output, [:no_span_caps]).to_html).html_safe
+          # this is what is going to be avaiable in the html template
+          {
+            issues: issues,
+            nodes: nodes,
+            notes: notes,
+            reporting_cat: reporting_cat,
+            template_properties: template_properties,
+            title: title
+          }
         end
       end
     end
