@@ -1,3 +1,7 @@
+## Dradis Framework 3.12 (XXX) ##
+
+*   Render the html using Dradis app (and its helpers).
+
 ## Dradis Framework 3.11 (November, 2018) ##
 
 *   No changes.
