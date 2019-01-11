@@ -46,8 +46,8 @@ module Dradis
             logger.warning { 'No issue library node found in this project' }
           end
 
-          # this is what is going to be avaiable in the html template
-          {
+          # this is what is going to be available in the html template
+          data = {
             issues: issues,
             nodes: nodes,
             notes: notes,
@@ -55,6 +55,15 @@ module Dradis
             template_properties: template_properties,
             title: title
           }
+
+          # set up an ActionView instance
+          av = ActionView::Base.new
+          av.class_eval do
+            # include any needed helpers (for the view)
+            include ApplicationHelper
+          end
+
+          av.render file: template_path, locals: data
         end
       end
     end

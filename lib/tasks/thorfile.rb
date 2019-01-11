@@ -29,16 +29,7 @@ class HtmlExportTasks < Thor
 
 
     exporter = Dradis::Plugins::HtmlExport::Exporter.new(task_options)
-    data = exporter.export
-
-    # set up an ActionView instance
-    av = ActionView::Base.new
-    av.class_eval do
-      # include any needed helpers (for the view)
-      include ApplicationHelper
-    end
-
-    html = av.render file: template, locals: data
+    html = exporter.export
 
     File.open(report_path, 'w') do |f|
       f << html
