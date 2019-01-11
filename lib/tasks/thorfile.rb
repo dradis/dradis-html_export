@@ -27,7 +27,6 @@ class HtmlExportTasks < Thor
 
     detect_and_set_project_scope
 
-
     exporter = Dradis::Plugins::HtmlExport::Exporter.new(task_options)
     html = exporter.export
 
