@@ -1,7 +1,7 @@
 ## Dradis Framework 3.12 (XXX) ##
 
-  *   Render html using ActionView with app markup method.
-  
+  *   Render html using main app `markup` method.
+
 ## Dradis Framework 3.11 (November, 2018) ##
 
 *   No changes.
