@@ -25,6 +25,12 @@ module Dradis
             mount Dradis::Plugins::HtmlExport::Engine => '/export/html'
           end
         end
+
+        initializer 'dradis-html_export.include_helper' do
+          ActiveSupport.on_load :action_controller do
+            Dradis::Plugins::HtmlExport::Exporter.send(:include, ::ApplicationHelper)
+          end
+        end
       end
     end
   end
