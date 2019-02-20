@@ -7,6 +7,8 @@ module Dradis
         include ::ActionView::Helpers::TextHelper
         # For auto_link feature (requires #mail_to)
         include ::ActionView::Helpers::UrlHelper
+        # For 'markup' method
+        include ::ApplicationHelper
 
         def export(args = {})
           template_path       = options.fetch(:template)
@@ -54,24 +56,6 @@ module Dradis
           # Render template
           erb = ERB.new( File.read(template_path) )
           erb.result( binding )
-        end
-
-        private
-
-        # FIXME This method is a behavioural duplicate of ApplicationHelper#markup
-        # from the main app, it would be better to re-use that code.
-        def markup(text)
-          return unless text.present?
-
-          # escape HTML 'manually' instead of using RedCloth's "filter_html"
-          # for security reasons
-          output = ERB::Util.html_escape(text.dup)
-
-          Hash[ *text.scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect{ |str| str.strip } ].keys.each do |field|
-            output.gsub!(/#\[#{Regexp.escape(field)}\]#[\r|\n]/, "h4. #{field}\n\n")
-          end
-
-          auto_link(RedCloth.new(output, [:no_span_caps]).to_html).html_safe
         end
       end
     end
