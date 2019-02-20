@@ -7,6 +7,7 @@ module Dradis
         #
         # It uses the template at: ./vendor/plugins/html_export/template.html.erb
         def index
+          Dradis::Plugins::HtmlExport::Exporter.send(:include, ::ApplicationHelper)
           exporter = Dradis::Plugins::HtmlExport::Exporter.new(export_options)
           html     = exporter.export
 
