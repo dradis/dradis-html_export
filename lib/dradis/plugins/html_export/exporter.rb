@@ -48,12 +48,14 @@ module Dradis
           end
 
           # Render template
+          locals = binding.local_variables.map do |var|
+            [var, binding.local_variable_get(var)]
+          end.to_h
+          locals[:project] = project
           ApplicationController.render(
             file: template_path,
             layout: false,
-            locals: binding.local_variables.map do |var|
-              [var, binding.local_variable_get(var)]
-            end.to_h
+            locals: locals
           )
         end
       end
