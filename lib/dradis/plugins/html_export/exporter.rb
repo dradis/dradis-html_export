@@ -3,12 +3,6 @@ module Dradis
     module HtmlExport
 
       class Exporter < Dradis::Plugins::Export::Base
-        # Add auto_link support to the ERB processor (see rails_autolink)
-        include ::ActionView::Helpers::TextHelper
-        # For auto_link feature (requires #mail_to)
-        include ::ActionView::Helpers::UrlHelper
-        # For 'markup' method
-        include ::ApplicationHelper
 
         def export(args = {})
           template_path       = options.fetch(:template)
@@ -54,8 +48,12 @@ module Dradis
           end
 
           # Render template
-          erb = ERB.new( File.read(template_path) )
-          erb.result( binding )
+          ApplicationController.render(
+            file: template_path,
+            locals: binding.local_variables.map do |var|
+              [var, binding.local_variable_get(var)]
+            end.to_h
+          )
         end
       end
     end

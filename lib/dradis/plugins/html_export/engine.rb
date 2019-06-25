@@ -25,14 +25,6 @@ module Dradis
             mount Dradis::Plugins::HtmlExport::Engine => '/export/html'
           end
         end
-
-        config.after_initialize do
-          # Dradis::Plugins::HtmlExport::Exporter needs ::ApplicationHelper
-          # module from the main app. Here we are forcing that class to be
-          # loaded once the main app is loaded, so it can use
-          # 'include ;;ApplicationHelper' without surprises
-          require 'dradis/plugins/html_export/exporter'
-        end
       end
     end
   end

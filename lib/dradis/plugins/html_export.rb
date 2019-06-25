@@ -1,4 +1,5 @@
 require 'dradis/plugins/html_export/engine'
+require 'dradis/plugins/html_export/exporter'
 require 'dradis/plugins/html_export/version'
 
 module Dradis
