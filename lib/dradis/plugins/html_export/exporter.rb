@@ -9,7 +9,6 @@ module Dradis
           template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
 
           user = options[:user]
-          issue_id = options[:issue_id]
 
           # Build title
           title = if Dradis.constants.include?(:Pro)
@@ -55,7 +54,6 @@ module Dradis
             [var, binding.local_variable_get(var)]
           end.to_h
           locals[:project] = project
-          locals[:issue] = content_service.all_issues.find { |x| x.id == issue_id }
 
           ApplicationController.render(
             file: template_path,
