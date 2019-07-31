@@ -12,12 +12,14 @@ module Dradis
             file: options.fetch(:template),
             layout: false,
             locals: {
+              categorized_issues: categorized_issues,
               content_service: content_service,
               issues: issues,
               nodes: nodes,
               notes: notes,
               project: project,
               reporting_cat: content_service.report_category,
+              tags: tags,
               title: title,
               user: options[:user]
             }
@@ -52,6 +54,12 @@ module Dradis
           @issues ||= sort_issues content_service.all_issues.includes(:tags)
         end
 
+        def categorized_issues
+          @categorized_issues ||= tags
+            .each_with_object({}) { |tag, hash| hash[tag.id] = issues.select { |issue| issue.tags.include?(tag) } }
+            .tap { |hash| hash[:untagged] = issues.select { |issue| issue.tags.empty? } }
+        end
+
         def sort_field
           @sort_field ||= begin
             template_path = options.fetch(:template)
@@ -67,6 +75,10 @@ module Dradis
           unsorted_issues.to_a.sort do |a, b|
             b.fields.fetch(sort_field, '0').to_f <=> a.fields.fetch(sort_field, '0').to_f
           end
+        end
+
+        def tags
+          @tags ||= project.tags
         end
 
         def title
