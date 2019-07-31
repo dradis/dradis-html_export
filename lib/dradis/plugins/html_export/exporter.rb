@@ -72,7 +72,7 @@ module Dradis
           return unsorted_issues unless unsorted_issues.any? && sort_field
 
           # FIXME: Assume the Field :type is :number, so cast .to_f and sort
-          unsorted_issues.to_a.sort do |a, b|
+          unsorted_issues.sort do |a, b|
             b.fields.fetch(sort_field, '0').to_f <=> a.fields.fetch(sort_field, '0').to_f
           end
         end
