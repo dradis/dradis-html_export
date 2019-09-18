@@ -16,6 +16,7 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
 
 RSpec.configure do |config|
+  config.include Rails.application.routes.url_helpers
   config.include Capybara::DSL
 
   # Capybara javascript drivers require transactional fixtures set to false,
