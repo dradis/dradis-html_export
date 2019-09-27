@@ -56,8 +56,12 @@ module Dradis
 
         def categorized_issues
           @categorized_issues ||= tags
-            .each_with_object({}) { |tag, hash| hash[tag.id] = issues.select { |issue| issue.tags.include?(tag) } }
-            .tap { |hash| hash[:untagged] = issues.select { |issue| issue.tags.empty? } }
+            .each_with_object({}) do |tag, hash|
+              hash[tag.id] = issues.select { |issue| issue.tags.include?(tag) }
+            end
+            .tap do |hash|
+              hash[:untagged] = issues.select { |issue| issue.tags.empty? }
+            end
         end
 
         def sort_field
