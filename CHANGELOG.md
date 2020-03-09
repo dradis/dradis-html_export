@@ -1,6 +1,15 @@
-## Dradis Framework 3.15 (XXX) ##
+## Dradis Framework 3.17 (XXX) ##
 
-*   Render html using ActionView with app markup method.
+*   Render report using main app's ApplicationController#render.
+
+## Dradis Framework 3.16 (February, 2020) ##
+
+*   No changes.
+
+## Dradis Framework 3.15 (November, 2019) ##
+
+*   No changes.
+
 
 ## Dradis Framework 3.14 (August, 2019) ##
 
