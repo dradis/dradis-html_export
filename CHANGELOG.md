@@ -1,6 +1,18 @@
-## Dradis Framework 3.15 (XXX, 2019) ##
+## Dradis Framework 3.17 (XXX, 2020) ##
 
 *   Read params from request, not from session
+
+## Dradis Framework 3.16 (February, 2020) ##
+
+*   No changes.
+
+## Dradis Framework 3.15 (November, 2019) ##
+
+*   No changes.
+
+## Dradis Framework 3.15 (August, 2019) ##
+
+*   No changes.
 
 ## Dradis Framework 3.14 (August, 2019) ##
 
