@@ -1,3 +1,7 @@
+## Dradis Framework 3.17 (XXX) ##
+
+*   Render report using main app's ApplicationController#render.
+
 ## Dradis Framework 3.16 (February, 2020) ##
 
 *   No changes.
@@ -6,9 +10,6 @@
 
 *   No changes.
 
-## Dradis Framework 3.15 (August, 2019) ##
-
-*   No changes.
 
 ## Dradis Framework 3.14 (August, 2019) ##
 
