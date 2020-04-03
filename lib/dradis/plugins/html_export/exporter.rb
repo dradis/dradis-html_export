@@ -3,75 +3,94 @@ module Dradis
     module HtmlExport
 
       class Exporter < Dradis::Plugins::Export::Base
-        # Add auto_link support to the ERB processor (see rails_autolink)
-        include ::ActionView::Helpers::TextHelper
-        # For auto_link feature (requires #mail_to)
-        include ::ActionView::Helpers::UrlHelper
 
         def export(args = {})
-          template_path       = options.fetch(:template)
-          template_properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
-
-          # Build title
-          title = if Dradis.constants.include?(:Pro)
-                    "Dradis Professional Edition v#{Dradis::Pro.version}"
-                  else
-                    "Dradis Community Edition v#{Dradis::CE.version}"
-                  end
-          logger.debug{ "Report title: #{title}"}
-
-          # Prepare notes
-          reporting_cat = content_service.report_category
-          notes = content_service.all_notes
-          logger.debug{ "Found #{notes.count} notes assigned to the reporting category."}
-
-          # Prepare issues
-          issues = content_service.all_issues
-          if issues
-            # Sort our issues based on the ReportTemplateProperties rules.
-            if template_properties && template_properties.sort_field
-              sort_by = template_properties.sort_field
-
-              logger.debug{ "Template properties define a sort field: #{sort_by}. Sorting..." }
-
-              # FIXME: Assume the Field :type is :number, so cast .to_f and sort
-              issues.to_a.sort! do |a, b|
-                b.fields.fetch(sort_by, '0').to_f <=> a.fields.fetch(sort_by, '0').to_f
-              end
-
-              logger.debug{ "Done." }
-            end
-
-            # FIXME: This is an ugly piece of code and the list of nodes should
-            # come from the ContentService.
-            nodes = issues.map(&:evidence).flatten.map(&:node).uniq
-
-            logger.debug{ "Found #{issues.count} issues affecting #{nodes.count} nodes" }
-          else
-            logger.warning { "No issue library node found in this project" }
-          end
+          log_report
 
           # Render template
-          erb = ERB.new( File.read(template_path) )
-          erb.result( binding )
+          ApplicationController.render(
+            file: options.fetch(:template),
+            layout: false,
+            locals: {
+              categorized_issues: categorized_issues,
+              content_service: content_service,
+              issues: issues,
+              nodes: nodes,
+              notes: notes,
+              project: project,
+              reporting_cat: content_service.report_category,
+              tags: tags,
+              title: title,
+              user: options[:user]
+            }
+          )
         end
 
         private
+        def log_report
+          logger.debug { "Report title: #{title}" }
+          logger.debug { "Template properties define a sort field: #{sort_field}" }
 
-        # FIXME This method is a behavioural duplicate of ApplicationHelper#markup
-        # from the main app, it would be better to re-use that code.
-        def markup(text)
-          return unless text.present?
-
-          # escape HTML 'manually' instead of using RedCloth's "filter_html"
-          # for security reasons
-          output = ERB::Util.html_escape(text.dup)
-
-          Hash[ *text.scan(/#\[(.+?)\]#[\r|\n](.*?)(?=#\[|\z)/m).flatten.collect{ |str| str.strip } ].keys.each do |field|
-            output.gsub!(/#\[#{Regexp.escape(field)}\]#[\r|\n]/, "h4. #{field}\n\n")
+          if issues&.any?
+            logger.debug { "Found #{issues.count} issues affecting #{nodes.count} nodes" }
+          else
+            logger.warn { 'No issue library node found in this project' }
           end
 
-          auto_link(RedCloth.new(output, [:no_span_caps]).to_html).html_safe
+          logger.debug { "Found #{notes.count} notes assigned to the reporting category." }
+        end
+
+        def nodes
+          # FIXME: This is an ugly piece of code and the list of nodes should
+          # come from the ContentService.
+          @nodes ||= issues.map(&:evidence).flatten.map(&:node).uniq
+        end
+
+        def notes
+          @notes ||= content_service.all_notes
+        end
+
+        def issues
+          @issues ||= sort_issues content_service.all_issues.includes(:tags)
+        end
+
+        def categorized_issues
+          @categorized_issues ||= tags
+            .each_with_object({}) do |tag, hash|
+              hash[tag.id] = issues.select { |issue| issue.tags.include?(tag) }
+            end
+            .tap do |hash|
+              hash[:untagged] = issues.select { |issue| issue.tags.empty? }
+            end
+        end
+
+        def sort_field
+          @sort_field ||= begin
+            template_path = options.fetch(:template)
+            properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
+            properties&.sort_field
+          end
+        end
+
+        def sort_issues(unsorted_issues)
+          return unsorted_issues unless unsorted_issues.any? && sort_field
+
+          # FIXME: Assume the Field :type is :number, so cast .to_f and sort
+          unsorted_issues.sort do |a, b|
+            b.fields.fetch(sort_field, '0').to_f <=> a.fields.fetch(sort_field, '0').to_f
+          end
+        end
+
+        def tags
+          @tags ||= project.tags
+        end
+
+        def title
+          @title ||= if Dradis.constants.include?(:Pro)
+                       "Dradis Professional Edition v#{Dradis::Pro.version}"
+                     else
+                       "Dradis Community Edition v#{Dradis::CE.version}"
+                     end
         end
       end
     end

@@ -1,5 +1,6 @@
-## Dradis Framework 3.17 (XXX, 2020) ##
+## Dradis Framework 3.17 (XXX) ##
 
+*   Render report using main app's ApplicationController#render.
 *   Read params from request, not from session
 
 ## Dradis Framework 3.16 (February, 2020) ##
@@ -10,9 +11,6 @@
 
 *   No changes.
 
-## Dradis Framework 3.15 (August, 2019) ##
-
-*   No changes.
 
 ## Dradis Framework 3.14 (August, 2019) ##
 
