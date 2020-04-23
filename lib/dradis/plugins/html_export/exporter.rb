@@ -51,7 +51,7 @@ module Dradis
         end
 
         def issues
-          @issues ||= sort_issues content_service.all_issues.includes(:tags)
+          @issues ||= sort_issues content_service.all_issues.published.includes(:tags)
         end
 
         def categorized_issues
