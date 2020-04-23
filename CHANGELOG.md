@@ -1,6 +1,7 @@
 ## Dradis Framework 3.17 (XXX) ##
 
 *   Render report using main app's ApplicationController#render.
+*   Update the exporter to export published issues only.
 
 ## Dradis Framework 3.16 (February, 2020) ##
 
