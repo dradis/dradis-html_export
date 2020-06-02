@@ -1,4 +1,4 @@
-## Dradis Framework 3.17 (XXX) ##
+## Dradis Framework 3.17 (May, 2020) ##
 
 *   Render report using main app's ApplicationController#render.
 
