@@ -7,8 +7,10 @@ module Dradis
         def export(args = {})
           log_report
 
+          controller = args[:controller] || ApplicationController
+
           # Render template
-          ApplicationController.render(
+          controller.render(
             file: options.fetch(:template),
             layout: false,
             locals: {

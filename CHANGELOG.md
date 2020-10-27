@@ -1,3 +1,7 @@
+## Dradis Framework 3.20 (XXX, 2020) ##
+
+*   Add an option in the exporter to pass a controller for rendering.
+
 ## Dradis Framework 3.19 (September, 2020) ##
 
 *   No changes.
