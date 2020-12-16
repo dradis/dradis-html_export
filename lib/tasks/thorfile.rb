@@ -15,9 +15,15 @@ class HtmlExportTasks < Thor
 
     report_path = options.output || Rails.root
     unless report_path.to_s =~ /\.html\z/
-      date      = DateTime.now.strftime("%Y-%m-%d")
-      sequence  = Dir.glob(File.join(report_path, "dradis-report_#{date}_*.html")).collect { |a| a.match(/_([0-9]+)\.html\z/)[1].to_i }.max || 0
-      report_path = File.join(report_path, "dradis-report_#{date}_#{sequence + 1}.html")
+      date = DateTime.now.strftime("%Y-%m-%d")
+      base_filename = "dradis-report_#{date}.html"
+
+      report_filename = NamingService.name_file(
+        original_filename: base_filename,
+        pathname: Pathname.new(report_path)
+      )
+
+      report_path = File.join(report_path, report_filename)
     end
 
     if template = options.template
