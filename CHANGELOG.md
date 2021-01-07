@@ -1,6 +1,7 @@
-## Dradis Framework 3.20 (XXX, 2020) ##
+## Dradis Framework 3.20 (December, 2020) ##
 
 *   Add an option in the exporter to pass a controller for rendering.
+*   Use NamingService to build export filename.
 
 ## Dradis Framework 3.19 (September, 2020) ##
 
