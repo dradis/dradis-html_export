@@ -11,7 +11,7 @@ module Dradis
 
           # Render template
           controller.render(
-            file: options.fetch(:template),
+            template: tmp_template(original_template_path: options.fetch(:template)),
             layout: false,
             locals: {
               categorized_issues: categorized_issues,
@@ -26,6 +26,10 @@ module Dradis
               user: options[:user]
             }
           )
+        end
+
+        def remove_tmp_folder
+          FileUtils.remove_dir(Rails.root.join('app/views/tmp'))
         end
 
         private
@@ -93,6 +97,16 @@ module Dradis
                      else
                        "Dradis Community Edition v#{Dradis::CE.version}"
                      end
+        end
+
+        def tmp_template(original_template_path:)
+          filename = File.basename(original_template_path)
+          destination_path = Rails.root.join("app/views/tmp/templates/html_export/#{filename}")
+
+          FileUtils.mkdir_p(File.dirname(destination_path))
+          FileUtils.cp(original_template_path, destination_path)
+
+          "tmp/templates/html_export/#{filename}"
         end
       end
     end
