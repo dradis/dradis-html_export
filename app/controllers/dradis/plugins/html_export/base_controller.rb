@@ -9,7 +9,6 @@ module Dradis
         def index
           exporter = Dradis::Plugins::HtmlExport::Exporter.new(export_options)
           html     = exporter.export
-          exporter.remove_tmp_folder
 
           render html: html.html_safe
         end

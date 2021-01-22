@@ -7,18 +7,10 @@ describe Dradis::Plugins::HtmlExport::Exporter do
   let(:export_options) do
     {
       project_id: project.id,
-      template: File.join(
-        File.dirname(__FILE__),
-        '../../../../',
-        'fixtures',
-        'files',
-        'template.html.erb'
+      template: Dradis::Plugins::HtmlExport::Engine.root.join(
+        'spec/fixtures/files/template.html.erb'
       )
     }
-  end
-
-  after do
-    exporter.remove_tmp_folder
   end
 
   let(:exporter) { described_class.new(export_options) }

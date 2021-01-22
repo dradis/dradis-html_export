@@ -10,7 +10,7 @@ module Dradis
           controller = args[:controller] || ApplicationController
 
           # Render template
-          controller.render(
+          html = controller.render(
             template: tmp_template(original_template_path: options.fetch(:template)),
             layout: false,
             locals: {
@@ -26,6 +26,10 @@ module Dradis
               user: options[:user]
             }
           )
+
+          remove_tmp_folder
+
+          html
         end
 
         def remove_tmp_folder
