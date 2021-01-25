@@ -8,10 +8,16 @@ module Dradis
           log_report
 
           controller = args[:controller] || ApplicationController
+          filename = tmp_filename
+
+          copy_template_to_view_folder(
+            original_template_path: options[:template],
+            destination_filename: filename
+          )
 
           # Render template
           html = controller.render(
-            template: tmp_template(original_template_path: options.fetch(:template)),
+            template: "tmp/#{filename}",
             layout: false,
             locals: {
               categorized_issues: categorized_issues,
@@ -27,7 +33,7 @@ module Dradis
             }
           )
 
-          remove_tmp_folder
+          remove_tmp_file_in_view_folder(filename)
 
           html
         end
@@ -103,14 +109,19 @@ module Dradis
                      end
         end
 
-        def tmp_template(original_template_path:)
-          filename = File.basename(original_template_path)
-          destination_path = Rails.root.join("app/views/tmp/templates/html_export/#{filename}")
+        def tmp_filename
+          "#{SecureRandom.hex}.html.erb"
+        end
 
+        def copy_template_to_view_folder(original_template_path:, destination_filename:)
+          destination_path = Rails.root.join("app/views/tmp/#{destination_filename}")
           FileUtils.mkdir_p(File.dirname(destination_path))
           FileUtils.cp(original_template_path, destination_path)
+        end
 
-          "tmp/templates/html_export/#{filename}"
+        def remove_tmp_file_in_view_folder(filename)
+          file_path = Rails.root.join("app/views/tmp/#{filename}")
+          File.delete(file_path) if File.exists?(file_path)
         end
       end
     end
