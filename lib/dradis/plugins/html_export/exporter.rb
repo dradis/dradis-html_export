@@ -38,10 +38,6 @@ module Dradis
           html
         end
 
-        def remove_tmp_folder
-          FileUtils.remove_dir(Rails.root.join('app/views/tmp'))
-        end
-
         private
         def log_report
           logger.debug { "Report title: #{title}" }
