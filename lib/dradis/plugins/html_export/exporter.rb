@@ -11,8 +11,8 @@ module Dradis
           filename = tmp_filename
 
           copy_template_to_view_folder(
-            original_template_path: options[:template],
-            destination_filename: filename
+            destination_filename: filename,
+            original_template_path: options[:template]
           )
 
           # Render template
@@ -109,7 +109,7 @@ module Dradis
           "#{SecureRandom.hex}.html.erb"
         end
 
-        def copy_template_to_view_folder(original_template_path:, destination_filename:)
+        def copy_template_to_view_folder(destination_filename:, original_template_path:)
           destination_path = Rails.root.join("app/views/tmp/#{destination_filename}")
           FileUtils.mkdir_p(File.dirname(destination_path))
           FileUtils.cp(original_template_path, destination_path)
