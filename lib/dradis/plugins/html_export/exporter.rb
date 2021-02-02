@@ -8,15 +8,12 @@ module Dradis
           log_report
 
           controller = args[:controller] || ApplicationController
-          filename = tmp_filename
 
-          copy_template_to_view_folder(
-            destination_filename: filename,
-            original_template_path: options[:template]
-          )
+          filename = File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
+          yield(filename, options[:template])
 
           # Render template
-          html = controller.render(
+          controller.render(
             template: "tmp/#{filename}",
             layout: false,
             locals: {
@@ -32,10 +29,9 @@ module Dradis
               user: options[:user]
             }
           )
-
-          remove_tmp_file_in_view_folder(filename)
-
-          html
+        ensure
+          file_path = Rails.root.join("app/views/tmp/#{filename}")
+          File.delete(file_path) if File.exists?(file_path)
         end
 
         private
@@ -103,21 +99,6 @@ module Dradis
                      else
                        "Dradis Community Edition v#{Dradis::CE.version}"
                      end
-        end
-
-        def tmp_filename
-          File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
-        end
-
-        def copy_template_to_view_folder(destination_filename:, original_template_path:)
-          destination_path = Rails.root.join("app/views/tmp/#{destination_filename}")
-          FileUtils.mkdir_p(File.dirname(destination_path))
-          FileUtils.cp(original_template_path, destination_path)
-        end
-
-        def remove_tmp_file_in_view_folder(filename)
-          file_path = Rails.root.join("app/views/tmp/#{filename}")
-          File.delete(file_path) if File.exists?(file_path)
         end
       end
     end
