@@ -8,9 +8,12 @@ module Dradis
           log_report
 
           controller = args[:controller] || ApplicationController
-
           filename = File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
-          yield(filename, options[:template])
+
+          copy_template(
+            filename: filename,
+            template: options[:template]
+          )
 
           # Render template
           controller.render(
@@ -99,6 +102,12 @@ module Dradis
                      else
                        "Dradis Community Edition v#{Dradis::CE.version}"
                      end
+        end
+
+        def copy_template(filename:, template:)
+          destination_path = Rails.root.join("app/views/tmp/#{filename}")
+          FileUtils.mkdir_p(File.dirname(destination_path))
+          FileUtils.cp(template, destination_path)
         end
       end
     end
