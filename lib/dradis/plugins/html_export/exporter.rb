@@ -106,7 +106,7 @@ module Dradis
         end
 
         def tmp_filename
-          "#{SecureRandom.hex}.html.erb"
+          File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
         end
 
         def copy_template_to_view_folder(destination_filename:, original_template_path:)
