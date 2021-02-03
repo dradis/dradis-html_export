@@ -8,27 +8,30 @@ module Dradis
           log_report
 
           controller = args[:controller] || ApplicationController
+          template = options.fetch(:template)
+          file = File.open(template)
+          liquid_template = ::Liquid::Template.parse(file.read)
 
-          # Render template
-          controller.render(
-            file: options.fetch(:template),
-            layout: false,
-            locals: {
-              categorized_issues: categorized_issues,
-              content_service: content_service,
-              issues: issues,
-              nodes: nodes,
-              notes: notes,
-              project: project,
-              reporting_cat: content_service.report_category,
-              tags: tags,
-              title: title,
-              user: options[:user]
-            }
-          )
+          liquid_attributes = LiquidAttribute.new(
+            categorized_issues: categorized_issues,
+            controller: controller,
+            issues: issues,
+            nodes: nodes,
+            notes: notes,
+            project: project,
+            report_category: content_service.report_category,
+            tags: tags,
+            title: title,
+            user: options[:user]
+          ).format
+
+          liquid_template.render(liquid_attributes)
+        ensure
+          file.close
         end
 
         private
+
         def log_report
           logger.debug { "Report title: #{title}" }
           logger.debug { "Template properties define a sort field: #{sort_field}" }
@@ -43,9 +46,7 @@ module Dradis
         end
 
         def nodes
-          # FIXME: This is an ugly piece of code and the list of nodes should
-          # come from the ContentService.
-          @nodes ||= issues.map(&:evidence).flatten.map(&:node).uniq
+          @nodes ||= content_service.nodes_from_evidence
         end
 
         def notes
@@ -53,7 +54,7 @@ module Dradis
         end
 
         def issues
-          @issues ||= sort_issues content_service.all_issues.includes(:tags)
+          @issues ||= sort_issues(content_service.all_issues.includes(:tags))
         end
 
         def categorized_issues

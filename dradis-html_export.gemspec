@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   # Note markup
   spec.add_dependency 'rails_autolink', '~> 1.1'
   spec.add_dependency 'RedCloth', '~> 4.3.2'
+  spec.add_dependency 'liquid', '~> 5.0'
 
   # gem.add_development_dependency 'capybara', '~> 1.1.3'
   # gem.add_development_dependency 'database_cleaner'

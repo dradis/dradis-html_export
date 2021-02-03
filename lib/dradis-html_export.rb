@@ -2,6 +2,7 @@
 require 'dradis-plugins'
 
 # Load supporting classes
+require 'liquid'
 require 'rails_autolink'
 require 'redcloth'
 
