@@ -1,0 +1,23 @@
+<%
+  templates_dir = File.join(::Configuration::paths_templates_reports, 'html_export')
+  templates = Dir["%s/*" % templates_dir].map { |t| File.basename(t) }.sort
+%>
+
+<%= content_tag :div, id: 'plugin-html_export', class: 'tab-pane fade' do %>
+  <%= form_tag project_export_manager_path(current_project), target: '_blank' do %>
+    <%= hidden_field_tag :plugin, :html_export %>
+    <%= hidden_field_tag :route, :root %>
+
+    <h4 class="header-underline">Choose a template</h4>
+    <p>Please choose one of the templates available for this plugin (find them in <code>.<%= templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
+
+    <% templates.each do |template| %>
+      <div class="custom-control custom-radio">
+        <%= radio_button_tag :template, template, template == templates.first, :class => 'custom-control-input' %>
+        <label class="custom-control-label" for="template_<%= template %>"><%= template %></label>
+      </div>
+    <% end %>
+
+    <button id="export-button" class="btn btn-lg btn-primary mt-4">Export</button>
+  <% end %>
+<% end%>
