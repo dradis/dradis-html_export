@@ -95,19 +95,19 @@ module Dradis
                        "Dradis Community Edition v#{Dradis::CE.version}"
                      end
         end
-      end
 
-      def with_temporary_template(original, &block)
-        filename = File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
-        destination_path = Rails.root.join('app', 'views', 'tmp', filename)
+        def with_temporary_template(original, &block)
+          filename = File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
+          destination_path = Rails.root.join('app', 'views', 'tmp', filename)
 
-        FileUtils.mkdir_p(File.dirname(destination_path))
-        FileUtils.cp(original, destination_path)
+          FileUtils.mkdir_p(File.dirname(destination_path))
+          FileUtils.cp(original, destination_path)
 
-        yield(template_name)
-      ensure
-        file_path = Rails.root.join("app/views/tmp/#{filename}")
-        File.delete(file_path) if File.exists?(file_path)
+          yield("tmp/#{filename}")
+        ensure
+          file_path = Rails.root.join("app/views/tmp/#{filename}")
+          File.delete(file_path) if File.exists?(file_path)
+        end
       end
     end
   end
