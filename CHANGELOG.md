@@ -1,3 +1,7 @@
+## Dradis Framework 3.21 (MMM, 2021) ##
+
+*   Add a fix for Rails 6 not allowing HTML rendering outside the view directory.
+
 ## Dradis Framework 3.20 (December, 2020) ##
 
 *   Add an option in the exporter to pass a controller for rendering.
