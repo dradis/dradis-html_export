@@ -1,4 +1,4 @@
-## Dradis Framework 3.21 (MMM, 2021) ##
+## Dradis Framework 3.21 (February, 2021) ##
 
 *   Add a fix for Rails 6 not allowing HTML rendering outside the view directory.
 
