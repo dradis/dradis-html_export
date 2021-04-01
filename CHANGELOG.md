@@ -1,4 +1,4 @@
-## Dradis Framework 3.21 (April, 2021) ##
+## Dradis Framework 3.22 (April, 2021) ##
 
 *   No changes.
 
