@@ -6,27 +6,11 @@ module Dradis
         def export(args = {})
           log_report
 
-          controller = args[:controller] || ApplicationController
-
-          with_temporary_template(options[:template]) do |temporary_template|
-            # Render template
-            controller.render(
-              template: temporary_template,
-              layout: false,
-              locals: {
-                categorized_issues: categorized_issues,
-                content_service: content_service,
-                issues: issues,
-                nodes: nodes,
-                notes: notes,
-                project: project,
-                reporting_cat: content_service.report_category,
-                tags: tags,
-                title: title,
-                user: options[:user]
-              }
-            )
-          end
+          template = Liquid::Template.parse(File.read(options[:template]))
+          template.render(
+            'issues' => issues,
+            'notes' => notes
+          )
         end
 
         private
@@ -51,10 +35,12 @@ module Dradis
 
         def notes
           @notes ||= content_service.all_notes
+          @notes.map { |note| NoteDrop.new(note) }
         end
 
         def issues
           @issues ||= sort_issues content_service.all_issues.includes(:tags)
+          @issues.map { |issue| IssueDrop.new(issue) }
         end
 
         def categorized_issues
@@ -94,19 +80,6 @@ module Dradis
                      else
                        "Dradis Community Edition v#{Dradis::CE.version}"
                      end
-        end
-
-        def with_temporary_template(original, &block)
-          filename = File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
-          destination_path = Rails.root.join('app', 'views', 'tmp', filename)
-
-          FileUtils.mkdir_p(File.dirname(destination_path))
-          FileUtils.cp(original, destination_path)
-
-          yield("tmp/#{filename}")
-        ensure
-          file_path = Rails.root.join("app/views/tmp/#{filename}")
-          File.delete(file_path) if File.exists?(file_path)
         end
       end
     end
