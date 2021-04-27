@@ -27,6 +27,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rails_autolink', '~> 1.1'
   spec.add_dependency 'RedCloth', '~> 4.3.2'
 
+  spec.add_dependency 'liquid'
+
   # gem.add_development_dependency 'capybara', '~> 1.1.3'
   # gem.add_development_dependency 'database_cleaner'
   # gem.add_development_dependency 'factory_girl_rails'
