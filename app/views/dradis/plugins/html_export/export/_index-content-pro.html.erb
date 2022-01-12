@@ -6,9 +6,10 @@
     <%= hidden_field_tag :route, :root %>
 
     <% if templates.count == 0 %>
-      <%= hidden_field_tag :template, templates.first %>
-      <h4 class="header-underline mb-0">Ready when you are!</h4>
-      <button id="export-button" class="btn btn-lg btn-primary mt-4">Export</button>
+      <p>
+        There are no templates available for this plugin.
+        <%= link_to 'Manage your report templates', admin_templates_reports_path %>.
+      </p>
     <% else %>
       <% if templates.count == 1 %>
         <%= hidden_field_tag :template, templates.first.template_file %>
