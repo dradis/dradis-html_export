@@ -1,5 +1,5 @@
 [v#.#.#] ([month] [YYYY])
-  - Add partial for handling html_export RTP in Pro
+  - Add the RTP report title on export page in DradisPro
   - Upgraded gems:
     - [gem]
   - Bugs fixes:
