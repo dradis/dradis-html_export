@@ -19,8 +19,8 @@
     <% templates.each do |template| %>
       <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>
         <div class="custom-control custom-radio">
-          <%= radio_button_tag :template, template, template == templates.first, :class => 'custom-control-input' %>
-          <label class="custom-control-label" for="template_<%= template %>"><%= template_presenter.title %></label>
+          <%= radio_button_tag :template, template_presenter.filename, template == templates.first, :class => 'custom-control-input' %>
+          <label class="custom-control-label" for="template_<%= template_presenter.filename %>"><%= template_presenter.title %></label>
         </div>
       <% end %>
     <% end %>
