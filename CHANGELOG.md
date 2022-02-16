@@ -1,15 +1,8 @@
 [v#.#.#] ([month] [YYYY])
   - Add the RTP report title on export page in DradisPro
-  - Upgraded gems:
-    - [gem]
-  - Bugs fixes:
-    - [future tense verb] [bug fix]
-    - Bug tracker items:
-      - [item]
-  - Security Fixes:
-    - High: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
-    - Medium: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
-    - Low: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
+
+v4.2.0 (February 2022)
+  - No changes
 
 v4.1.1 (November 2021)
   - Loosen dradis-plugins version requirement
