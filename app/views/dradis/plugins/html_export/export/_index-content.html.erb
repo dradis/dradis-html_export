@@ -3,9 +3,7 @@
 <% if defined?(Dradis::Pro) %>
   <% templates = ReportTemplateProperties.all.where(plugin_name: :html_export).order(:title) %>
 <% else %>
-  <%
-    templates = Dir["%s/*" % templates_dir].map { |t| File.basename(t) }.sort
-  %>
+  <% templates = Dir["%s/*" % templates_dir].map { |t| File.basename(t) }.sort %>
 <% end %>
 
 <%= content_tag :div, id: 'plugin-html_export', class: 'tab-pane fade' do %>
