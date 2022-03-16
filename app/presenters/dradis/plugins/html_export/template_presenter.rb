@@ -4,10 +4,23 @@ module Dradis
       class TemplatePresenter < BasePresenter
         presents :template
 
+        def self.each_template(&block)
+          templates.each(&block)
+        end
+
+        def self.templates
+          if defined?(Dradis::Pro)
+            ReportTemplateProperties.all.where(plugin_name: :html_export).order(:title)
+          else
+            Dir["%s/*" % templates_dir].map { |t| File.basename(t) }.sort
+          end
+        end
+
         def title
           return template if template.is_a?(String)
 
-          "#{template.title} - #{content_tag(:small, template.template_file)}".html_safe
+          content_tag(:span, "#{template.title} - ") +
+            content_tag(:small, template.template_file)
         end
 
         def filename

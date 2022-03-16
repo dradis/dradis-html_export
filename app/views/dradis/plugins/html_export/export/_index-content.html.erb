@@ -1,11 +1,5 @@
 <% templates_dir = File.join(::Configuration::paths_templates_reports, 'html_export') %>
 
-<% if defined?(Dradis::Pro) %>
-  <% templates = ReportTemplateProperties.all.where(plugin_name: :html_export).order(:title) %>
-<% else %>
-  <% templates = Dir["%s/*" % templates_dir].map { |t| File.basename(t) }.sort %>
-<% end %>
-
 <%= content_tag :div, id: 'plugin-html_export', class: 'tab-pane fade' do %>
   <%= form_tag project_export_manager_path(current_project), target: '_blank' do %>
     <%= hidden_field_tag :plugin, :html_export %>
@@ -14,11 +8,13 @@
     <h4 class="header-underline">Choose a template</h4>
     <p>Please choose one of the templates available for this plugin (find them in <code>.<%= templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
 
-    <% templates.each do |template| %>
+    <% Dradis::Plugins::HtmlExport::TemplatePresenter.each_template do |template| %>
       <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>
         <div class="custom-control custom-radio">
-          <%= radio_button_tag :template, template_presenter.filename, template == templates.first, :class => 'custom-control-input' %>
-          <label class="custom-control-label" for="template_<%= template_presenter.filename %>"><%= template_presenter.title %></label>
+          <%= radio_button_tag :template, template_presenter.filename, Dradis::Plugins::HtmlExport::TemplatePresenter.templates.first == template , :class => 'custom-control-input' %>
+          <label class="custom-control-label" for="template_<%= template_presenter.filename %>">
+            <%= template_presenter.title %>
+          </label>
         </div>
       <% end %>
     <% end %>
