@@ -1,12 +1,10 @@
-<% templates_dir = File.join(::Configuration::paths_templates_reports, 'html_export') %>
-
 <%= content_tag :div, id: 'plugin-html_export', class: 'tab-pane fade' do %>
   <%= form_tag project_export_manager_path(current_project), target: '_blank' do %>
     <%= hidden_field_tag :plugin, :html_export %>
     <%= hidden_field_tag :route, :root %>
 
     <h4 class="header-underline">Choose a template</h4>
-    <p>Please choose one of the templates available for this plugin (find them in <code>.<%= templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
+    <p>Please choose one of the templates available for this plugin (find them in <code>.<%= Dradis::Plugins::HtmlExport::TemplatePresenter.templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
 
     <% Dradis::Plugins::HtmlExport::TemplatePresenter.each_template do |template| %>
       <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>

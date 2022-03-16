@@ -16,6 +16,10 @@ module Dradis
           end
         end
 
+        def self.templates_dir
+          File.join(::Configuration::paths_templates_reports, 'html_export')
+        end
+
         def title
           return template if template.is_a?(String)
 
