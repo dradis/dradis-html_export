@@ -26,7 +26,21 @@ RSpec.describe Dradis::Plugins::HtmlExport::TemplatePresenter do
       end
 
       it 'returns a formatted title' do
-        expect(template_presenter.title).to eq "#{template.title} - <small>#{template.template_file}</small>"
+        expect(template_presenter.title).to eq "<span>#{template.title} - </span><small>#{template.template_file}</small>"
+      end
+
+      context 'when title contains javascript' do
+        let(:template) do
+          double(
+            'ReportTemplateProperties',
+            title: '<script>alert("hello world")</script>',
+            template_file: 'basic.html.erb'
+          )
+        end
+
+        it 'prevents cross site scriptiing' do
+          expect(template_presenter.title).to eq "<span>&lt;script&gt;alert(&quot;hello world&quot;)&lt;/script&gt; - </span><small>#{template.template_file}</small>"
+        end
       end
     end
   end
