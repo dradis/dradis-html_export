@@ -1,4 +1,4 @@
-[v#.#.#] ([month] [YYYY])
+v4.3.0 (April 2022)
   - Add the RTP report title on export page in DradisPro
 
 v4.2.0 (February 2022)
