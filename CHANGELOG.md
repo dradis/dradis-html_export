@@ -1,3 +1,6 @@
+v4.5.0 (XXX 2022)
+  - Add :rtp plugins feature
+
 v4.4.0 (June 2022)
   - No changes
 

@@ -16,7 +16,7 @@ module Dradis
         include Dradis::Plugins::Base
 
         # plugin_name 'HTML export'
-        provides :export
+        provides :export, :rtp
         description 'Generate advanced HTML reports'
 
 
