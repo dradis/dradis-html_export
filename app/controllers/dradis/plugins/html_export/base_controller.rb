@@ -7,9 +7,7 @@ module Dradis
         #
         # It uses the template at: ./vendor/plugins/html_export/template.html.erb
         def index
-          exporter = Dradis::Plugins::HtmlExport::Exporter.new(
-            export_options.merge(scope: @scope.to_sym)
-          )
+          exporter = Dradis::Plugins::HtmlExport::Exporter.new(export_params)
           html = exporter.export
 
           render html: html.html_safe
