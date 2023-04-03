@@ -1,4 +1,4 @@
-v4.8.0 (MONTH 2023)
+v4.8.0 (April 2023)
   - Add feature to select published/all records for export
  
 v4.7.0 (February 2023)
