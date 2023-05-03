@@ -23,8 +23,7 @@ module Dradis
                 project: project,
                 reporting_cat: content_service.report_category,
                 tags: tags,
-                title: title,
-                user: options[:user]
+                title: title
               }
             )
           end
@@ -99,12 +98,11 @@ module Dradis
 
         def liquid_assigns
           {
-            # 'content_blocks' => main_app_project.content_blocks.published.map { |c| ContentBlockDrop.new(c) },
-            # 'current_user' => UserDrop.new(current_user),
-            # 'document_properties' => DocumentPropertiesDrop.new(properties: main_app_project.content_library.properties),
+            'content_blocks' => content_service.all_content_blocks.map { |c| ContentBlockDrop.new(c) },
+            'document_properties' => DocumentPropertiesDrop.new(properties: project.content_library.properties),
             'issues' => issues.map { |issue| IssueDrop.new(issue) },
             'nodes' => nodes.map { |node| NodeDrop.new(node) },
-            'project' => ProjectDrop.new(@project),
+            'project' => ProjectDrop.new(project),
             'tags' => tags.map { |tag| TagDrop.new(tag) }
           }
         end
@@ -117,9 +115,9 @@ module Dradis
           FileUtils.cp(original, destination_path)
 
           yield("tmp/#{filename}")
-        # ensure
-          # file_path = Rails.root.join("app/views/tmp/#{filename}")
-          # File.delete(file_path) if File.exists?(file_path)
+        ensure
+          file_path = Rails.root.join("app/views/tmp/#{filename}")
+          File.delete(file_path) if File.exists?(file_path)
         end
       end
     end
