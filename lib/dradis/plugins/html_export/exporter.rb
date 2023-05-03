@@ -17,6 +17,7 @@ module Dradis
                 categorized_issues: categorized_issues,
                 content_service: content_service,
                 issues: issues,
+                liquid_assigns: liquid_assigns,
                 nodes: nodes,
                 notes: notes,
                 project: project,
@@ -96,6 +97,18 @@ module Dradis
                      end
         end
 
+        def liquid_assigns
+          {
+            # 'content_blocks' => main_app_project.content_blocks.published.map { |c| ContentBlockDrop.new(c) },
+            # 'current_user' => UserDrop.new(current_user),
+            # 'document_properties' => DocumentPropertiesDrop.new(properties: main_app_project.content_library.properties),
+            'issues' => issues.map { |issue| IssueDrop.new(issue) },
+            'nodes' => nodes.map { |node| NodeDrop.new(node) },
+            'project' => ProjectDrop.new(@project),
+            'tags' => tags.map { |tag| TagDrop.new(tag) }
+          }
+        end
+
         def with_temporary_template(original, &block)
           filename = File.basename(Dir::Tmpname.create(['', '.html.erb']) {})
           destination_path = Rails.root.join('app', 'views', 'tmp', filename)
@@ -104,9 +117,9 @@ module Dradis
           FileUtils.cp(original, destination_path)
 
           yield("tmp/#{filename}")
-        ensure
-          file_path = Rails.root.join("app/views/tmp/#{filename}")
-          File.delete(file_path) if File.exists?(file_path)
+        # ensure
+          # file_path = Rails.root.join("app/views/tmp/#{filename}")
+          # File.delete(file_path) if File.exists?(file_path)
         end
       end
     end
