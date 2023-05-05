@@ -97,14 +97,21 @@ module Dradis
         end
 
         def liquid_assigns
-          {
-            'content_blocks' => content_service.all_content_blocks.map { |c| ContentBlockDrop.new(c) },
-            'document_properties' => DocumentPropertiesDrop.new(properties: project.content_library.properties),
+          assigns = {
             'issues' => issues.map { |issue| IssueDrop.new(issue) },
             'nodes' => nodes.map { |node| NodeDrop.new(node) },
             'project' => ProjectDrop.new(project),
             'tags' => tags.map { |tag| TagDrop.new(tag) }
           }
+
+          if defined?(Dradis::Pro)
+            assigns.merge!(
+              'content_blocks' =>content_service.all_content_blocks.map { |c| ContentBlockDrop.new(c) },
+              'document_properties' => DocumentPropertiesDrop.new(properties: project.content_library.properties)
+            )
+          end
+
+          assigns
         end
 
         def with_temporary_template(original, &block)
