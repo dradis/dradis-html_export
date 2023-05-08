@@ -8,6 +8,8 @@ describe Dradis::Plugins::HtmlExport::Exporter do
   let!(:nodes) { create_list(:node, 5, project: project) }
   let!(:tags) { create_list(:tag, 5, project: project) }
 
+  let(:controller) { Dradis::Plugins::HtmlExport::BaseController.new }
+
   let(:exporter) { described_class.new(export_options) }
 
   context 'html' do
@@ -21,7 +23,7 @@ describe Dradis::Plugins::HtmlExport::Exporter do
     end
 
     it 'exports html' do
-      html = exporter.export
+      html = exporter.export(controller: controller)
 
       issues.each do |issue|
         expect(html.include?(issue.title))
@@ -82,7 +84,7 @@ TEXT
     end
 
     it 'parses liquid syntax' do
-      html = exporter.export
+      html = exporter.export(controller: controller)
 
       expect(html).to include project.name
 
