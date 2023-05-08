@@ -18,7 +18,6 @@ module Dradis
                 categorized_issues: categorized_issues,
                 content_service: content_service,
                 issues: issues,
-                liquid_assigns: liquid_assigns,
                 nodes: nodes,
                 notes: notes,
                 project: project,
