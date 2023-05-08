@@ -9,7 +9,8 @@ module Dradis
           controller = args[:controller] || ApplicationController
 
           with_temporary_template(options[:template]) do |temporary_template|
-            # Render template
+            controller.liquid_assigns = liquid_assigns
+
             controller.render(
               template: temporary_template,
               layout: false,
