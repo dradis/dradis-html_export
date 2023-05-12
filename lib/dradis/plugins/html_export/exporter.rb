@@ -1,31 +1,15 @@
 module Dradis
   module Plugins
     module HtmlExport
-
       class Exporter < Dradis::Plugins::Export::Base
         def export(args = {})
+          class_eval { include ApplicationHelper }
+
           log_report
 
-          controller = args[:controller] || ApplicationController
-
           with_temporary_template(options[:template]) do |temporary_template|
-            controller.liquid_assigns = liquid_assigns
-
-            controller.render(
-              template: temporary_template,
-              layout: false,
-              locals: {
-                categorized_issues: categorized_issues,
-                content_service: content_service,
-                issues: issues,
-                nodes: nodes,
-                notes: notes,
-                project: project,
-                reporting_cat: content_service.report_category,
-                tags: tags,
-                title: title
-              }
-            )
+            erb = ERB.new(File.read(temporary_template))
+            erb.result(binding)
           end
         end
 
@@ -89,11 +73,12 @@ module Dradis
         end
 
         def title
-          @title ||= if Dradis.constants.include?(:Pro)
-                       "Dradis Professional Edition v#{Dradis::Pro.version}"
-                     else
-                       "Dradis Community Edition v#{Dradis::CE.version}"
-                     end
+          @title ||=
+            if Dradis.constants.include?(:Pro)
+              "Dradis Professional Edition v#{Dradis::Pro.version}"
+            else
+              "Dradis Community Edition v#{Dradis::CE.version}"
+            end
         end
 
         def liquid_assigns
@@ -106,7 +91,7 @@ module Dradis
 
           if defined?(Dradis::Pro)
             assigns.merge!(
-              'content_blocks' =>content_service.all_content_blocks.map { |c| ContentBlockDrop.new(c) },
+              'content_blocks' => content_service.all_content_blocks.map { |c| ContentBlockDrop.new(c) },
               'document_properties' => DocumentPropertiesDrop.new(properties: project.content_library.properties)
             )
           end
@@ -121,7 +106,7 @@ module Dradis
           FileUtils.mkdir_p(File.dirname(destination_path))
           FileUtils.cp(original, destination_path)
 
-          yield("tmp/#{filename}")
+          yield(destination_path)
         ensure
           file_path = Rails.root.join("app/views/tmp/#{filename}")
           File.delete(file_path) if File.exists?(file_path)

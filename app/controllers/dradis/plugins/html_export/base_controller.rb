@@ -2,16 +2,13 @@ module Dradis
   module Plugins
     module HtmlExport
       class BaseController < Dradis::Plugins::Export::BaseController
-        attr_accessor :liquid_assigns
-        helper_method :liquid_assigns
-
         # This method cycles throw the notes in the reporting category and creates
         # a simple HTML report with them.
         #
         # It uses the template at: ./vendor/plugins/html_export/template.html.erb
         def index
           exporter = Dradis::Plugins::HtmlExport::Exporter.new(export_params)
-          html = exporter.export(controller: self.clone)
+          html = exporter.export
 
           render html: html.html_safe
         end

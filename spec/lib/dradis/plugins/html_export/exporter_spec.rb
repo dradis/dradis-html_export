@@ -23,7 +23,7 @@ describe Dradis::Plugins::HtmlExport::Exporter do
     end
 
     it 'exports html' do
-      html = exporter.export(controller: controller)
+      html = exporter.export
 
       issues.each do |issue|
         expect(html.include?(issue.title))
@@ -84,7 +84,7 @@ TEXT
     end
 
     it 'parses liquid syntax' do
-      html = exporter.export(controller: controller)
+      html = exporter.export
 
       expect(html).to include project.name
 
