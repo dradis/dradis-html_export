@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Title</title>
+  </head>
+  <body>
+    <h2>Issues</h2>
+    <% issues.each do |issue| %>
+      <p><%= markup(issue.text, liquid: true) %></p>
+    <% end %>
+  </body>
+</html>
