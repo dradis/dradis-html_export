@@ -3,8 +3,6 @@ module Dradis
     module HtmlExport
       class Exporter < Dradis::Plugins::Export::Base
         def export(args = {})
-          class_eval { include ApplicationHelper }
-
           log_report
 
           with_temporary_template(options[:template]) do |temporary_template|
