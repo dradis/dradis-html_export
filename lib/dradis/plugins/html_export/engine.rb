@@ -15,7 +15,7 @@ module Dradis
         include Dradis::Plugins::Base
 
         # plugin_name 'HTML export'
-        provides :export, :rtp
+        provides :addon, :export, :rtp
         description 'Generate advanced HTML reports'
 
         initializer 'dradis-html_export.mount_engine' do
