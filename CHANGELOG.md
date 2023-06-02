@@ -1,3 +1,6 @@
+v4.9.1 (June 2023)
+  - Show HTML export tab by default in CE's export view
+
 v4.9.0 (June 2023)
   - Update views for compatibility with Bootstrap 5
 
