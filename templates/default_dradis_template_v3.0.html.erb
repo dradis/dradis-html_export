@@ -70,7 +70,7 @@
       <% notes.each do |note| %>
       <div class="panel panel-default">
         <div class="panel-body">
-          <%= markup(note.text) %>
+          <%= markup(note.text, liquid: true) %>
         </div>
       </div>
       <% end %>
@@ -81,7 +81,7 @@
       <% issues.each do |issue| %>
       <div class="panel panel-default">
         <div class="panel-body">
-          <%= markup(issue.text) %>
+          <%= markup(issue.text, liquid: true) %>
 
           <h3>Assets affected by this issue</h3>
           <% if issue.affected.empty? %>
@@ -101,7 +101,7 @@
                   <section id="evidence_for_#{node.id}">
                     <% if instances.count == 1 %>
                       <div class="content-textile" id="node_<%= node.id %>_instance_0">
-                        <%= markup(instances.first.content) %>
+                        <%= markup(instances.first.content, liquid: true) %>
                       </div>
                     <% else %>
                       <ul class="nav nav-tabs">
@@ -113,7 +113,7 @@
                       <div class="tab-content">
                         <% instances.each_with_index do |evidence, i| %>
                         <div class="content-textile tab-pane<%= ' active' if i==0 %>" id="node_<%= node.id %>_instance_<%= i %>">
-                          <%= markup(evidence.content) %>
+                          <%= markup(evidence.content, liquid: true) %>
                         </div>
                         <% end %>
                       </div>
