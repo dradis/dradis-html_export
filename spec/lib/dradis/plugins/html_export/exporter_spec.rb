@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe Dradis::Plugins::HtmlExport::Exporter do
+  before { Dradis::Plugins::HtmlExport::Exporter.include(ApplicationHelper) }
+
   let!(:project) { create(:project, :with_team) }
 
   let!(:content_blocks) { create_list(:content_block, 5, project: project) }
@@ -27,6 +29,46 @@ describe Dradis::Plugins::HtmlExport::Exporter do
 
       issues.each do |issue|
         expect(html.include?(issue.title))
+      end
+    end
+  end
+
+  context 'templates' do
+    describe 'basic template' do
+      let(:export_options) do
+        {
+          project_id: project.id,
+          template: Dradis::Plugins::HtmlExport::Engine.root.join(
+            'templates/basic.html.erb'
+          )
+        }
+      end
+
+      it 'exports html' do
+        html = exporter.export
+
+        issues.each do |issue|
+          expect(html.include?(issue.title))
+        end
+      end
+    end
+
+    describe 'default template' do
+      let(:export_options) do
+        {
+          project_id: project.id,
+          template: Dradis::Plugins::HtmlExport::Engine.root.join(
+            'templates/default_dradis_template_v3.0.html.erb'
+          )
+        }
+      end
+
+      it 'exports html' do
+        html = exporter.export
+
+        issues.each do |issue|
+          expect(html.include?(issue.title))
+        end
       end
     end
   end
