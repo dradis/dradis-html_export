@@ -24,7 +24,7 @@ module Dradis
           end
         end
 
-        initializer 'draids-html_export.include_helper' do
+        initializer 'dradis-html_export.include_helper' do
           ActiveSupport.on_load(:action_view) do
             Dradis::Plugins::HtmlExport::Exporter.include(ApplicationHelper)
           end
