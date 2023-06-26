@@ -1,4 +1,5 @@
 v4.10.0 (Month 2023)
+  - Fix the default templates
   - Update views for compatibility with Font Awesome 6
 
 v4.9.1 (June 2023)

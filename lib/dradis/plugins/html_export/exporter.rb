@@ -2,6 +2,8 @@ module Dradis
   module Plugins
     module HtmlExport
       class Exporter < Dradis::Plugins::Export::Base
+        include ActionView::Helpers::TextHelper
+
         def export(args = {})
           log_report
 

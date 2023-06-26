@@ -26,14 +26,14 @@
     <section>
       <h2>Issues</h2>
       <% issues.each do |issue| %>
-      <div class="note"><%= markup(issue.text) %></div>
+      <div class="note"><%= markup(issue.text, liquid: true) %></div>
       <% end %>
     </section>
 
     <section>
-      <h2>Notes assigned to the <%= reporting_cat.name %> category</h2>
+      <h2>Notes</h2>
       <% notes.each do |note| %>
-      <div class="note"><%= markup(note.text) %></div>
+      <div class="note"><%= markup(note.text, liquid: true) %></div>
       <% end %>
     </section>
 
