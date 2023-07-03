@@ -1,3 +1,5 @@
 Dradis::Plugins::HtmlExport::Engine.routes.draw do
-  root to: 'base#index'
+  resources :projects, only: [] do
+    resource :export, only: [:create]
+  end
 end
