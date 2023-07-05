@@ -1,7 +1,7 @@
 module Dradis
   module Plugins
     module HtmlExport
-      class ExportsController < Dradis::Plugins::Export::BaseController
+      class ReportsController < Dradis::Plugins::Export::BaseController
         # This method cycles throw the notes in the reporting category and creates
         # a simple HTML report with them.
         #
