@@ -20,7 +20,7 @@ module Dradis
 
         initializer 'dradis-html_export.mount_engine' do
           Rails.application.routes.append do
-            mount Dradis::Plugins::HtmlExport::Engine => '/export/html', as: :html_export
+            mount Dradis::Plugins::HtmlExport::Engine => '/', as: :html_export
           end
         end
 

@@ -1,5 +1,5 @@
 Dradis::Plugins::HtmlExport::Engine.routes.draw do
   resources :projects, only: [] do
-    resource :report, only: [:create]
+    resource :report, only: [:create], path: '/export/html'
   end
 end
