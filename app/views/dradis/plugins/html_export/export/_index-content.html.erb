@@ -1,24 +1,37 @@
 <%= content_tag :div, id: 'plugin-html_export', class: class_names('tab-pane', 'fade', 'active show': !defined?(Dradis::Pro)) do %>
-  <%= form_tag project_export_manager_path(current_project), target: '_blank' do %>
-    <%= hidden_field_tag :plugin, :html_export %>
-    <%= hidden_field_tag :route, :root %>
+  <% if Dradis::Plugins::HtmlExport::TemplatePresenter.templates.any? %>
+    <%= form_tag project_export_manager_path(current_project), target: '_blank' do %>
+      <%= hidden_field_tag :plugin, :html_export %>
+      <%= hidden_field_tag :route, :root %>
 
-    <h4 class="header-underline">Choose a template</h4>
-    <p>Please choose one of the templates available for this plugin (find them in <code>.<%= Dradis::Plugins::HtmlExport::TemplatePresenter.templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
+      <h4 class="header-underline">Choose a template</h4>
+      <p>Please choose one of the templates available for this plugin (find them in <code>.<%= Dradis::Plugins::HtmlExport::TemplatePresenter.templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
 
-    <% Dradis::Plugins::HtmlExport::TemplatePresenter.each_template do |template| %>
-      <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>
-        <div class="form-check">
-          <%= radio_button_tag :template, template_presenter.filename, Dradis::Plugins::HtmlExport::TemplatePresenter.templates.first == template , class: 'form-check-input' %>
-          <label class="form-check-label" for="template_<%= template_presenter.filename %>">
-            <%= template_presenter.title %>
-          </label>
-        </div>
+      <% Dradis::Plugins::HtmlExport::TemplatePresenter.each_template do |template| %>
+        <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>
+          <div class="form-check">
+            <%= radio_button_tag :template, template_presenter.filename, Dradis::Plugins::HtmlExport::TemplatePresenter.templates.first == template , class: 'form-check-input' %>
+            <label class="form-check-label" for="template_<%= template_presenter.filename %>">
+              <%= template_presenter.title %>
+            </label>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
 
-    <div class="mt-4">
-      <%= render partial: 'export/submit_button', locals: { plugin_name: Dradis::Plugins::HtmlExport::Engine.plugin_name } %>
+      <div class="mt-4">
+        <%= render partial: 'export/submit_button', locals: { plugin_name: Dradis::Plugins::HtmlExport::Engine.plugin_name } %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="alert alert-warning m-0">
+      <p class="mb-0">
+        This instance doesn't have any HTML report templates yet.
+        <% if current_user.role?(:admin) %>
+          <%= link_to 'Upload a template', main_app.admin_templates_reports_path(tab: 'html_export') %> or read more about <%= link_to 'report templates', 'https://dradisframework.com/support/guides/administration/report_templates.html', target: '_blank' %>.
+        <% else %>
+          Please contact your administrator.
+        <% end %>
+      </p>
     </div>
   <% end %>
-<% end%>
+<% end %>
