@@ -23,15 +23,6 @@
       </div>
     <% end %>
   <% else %>
-    <div class="alert alert-warning m-0">
-      <p class="mb-0">
-        This instance doesn't have any HTML report templates yet.
-        <% if current_user.role?(:admin) %>
-          <%= link_to 'Upload a template', main_app.admin_templates_reports_path(tab: 'html_export') %> or read more about <%= link_to 'report templates', 'https://dradisframework.com/support/guides/administration/report_templates.html', target: '_blank' %>.
-        <% else %>
-          Please contact your administrator.
-        <% end %>
-      </p>
-    </div>
+    <%= render partial: 'export/no_templates', locals: { plugin_name: Dradis::Plugins::HtmlExport::Engine.plugin_name } %>
   <% end %>
 <% end %>
