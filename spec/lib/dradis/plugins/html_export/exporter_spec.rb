@@ -10,7 +10,7 @@ describe Dradis::Plugins::HtmlExport::Exporter do
   let!(:nodes) { create_list(:node, 5, project: project) }
   let!(:tags) { create_list(:tag, 5, project: project) }
 
-  let(:controller) { Dradis::Plugins::HtmlExport::BaseController.new }
+  let(:controller) { Dradis::Plugins::HtmlExport::ExportController.new }
 
   let(:exporter) { described_class.new(export_options) }
 
