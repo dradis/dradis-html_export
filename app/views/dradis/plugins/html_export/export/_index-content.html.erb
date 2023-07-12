@@ -1,8 +1,5 @@
 <%= content_tag :div, id: 'plugin-html_export', class: class_names('tab-pane', 'fade', 'active show': !defined?(Dradis::Pro)) do %>
-  <%= form_tag project_export_manager_path(current_project), target: '_blank' do %>
-    <%= hidden_field_tag :plugin, :html_export %>
-    <%= hidden_field_tag :route, :root %>
-
+  <%= form_tag html_export.project_report_path(current_project) do %>
     <h4 class="header-underline">Choose a template</h4>
     <p>Please choose one of the templates available for this plugin (find them in <code>.<%= Dradis::Plugins::HtmlExport::TemplatePresenter.templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
 
