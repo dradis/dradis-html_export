@@ -1,21 +1,25 @@
 <%= content_tag :div, id: 'plugin-html_export', class: class_names('tab-pane', 'fade', 'active show': !defined?(Dradis::Pro)) do %>
-  <%= form_tag html_export.project_report_path(current_project) do %>
-    <h4 class="header-underline">Choose a template</h4>
-    <p>Please choose one of the templates available for this plugin (find them in <code>.<%= Dradis::Plugins::HtmlExport::TemplatePresenter.templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
-
-    <% Dradis::Plugins::HtmlExport::TemplatePresenter.each_template do |template| %>
-      <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>
-        <div class="form-check">
-          <%= radio_button_tag :template, template_presenter.filename, Dradis::Plugins::HtmlExport::TemplatePresenter.templates.first == template , class: 'form-check-input' %>
-          <label class="form-check-label" for="template_<%= template_presenter.filename %>">
-            <%= template_presenter.title %>
-          </label>
-        </div>
+  <% if Dradis::Plugins::HtmlExport::TemplatePresenter.templates.any? %>
+    <%= form_tag html_export.project_report_path(current_project) do %>
+      <h4 class="header-underline">Choose a template</h4>
+      <p>Please choose one of the templates available for this plugin (find them in <code>.<%= Dradis::Plugins::HtmlExport::TemplatePresenter.templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
+    
+      <% Dradis::Plugins::HtmlExport::TemplatePresenter.each_template do |template| %>
+        <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>
+          <div class="form-check">
+            <%= radio_button_tag :template, template_presenter.filename, Dradis::Plugins::HtmlExport::TemplatePresenter.templates.first == template , class: 'form-check-input' %>
+            <label class="form-check-label" for="template_<%= template_presenter.filename %>">
+              <%= template_presenter.title %>
+            </label>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
 
-    <div class="mt-4">
-      <%= render partial: 'export/submit_button', locals: { plugin_name: Dradis::Plugins::HtmlExport::Engine.plugin_name } %>
-    </div>
+      <div class="mt-4">
+        <%= render partial: 'export/submit_button', locals: { plugin_name: Dradis::Plugins::HtmlExport::Engine.plugin_name } %>
+      </div>
+    <% end %>
+  <% else %>
+    <%= render partial: 'export/no_templates', locals: { plugin_name: Dradis::Plugins::HtmlExport::Engine.plugin_name } %>
   <% end %>
-<% end%>
+<% end %>
