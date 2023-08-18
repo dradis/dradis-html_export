@@ -1,4 +1,5 @@
 [v#.#.#] ([month] 2023)
+  - Add support for enabling/disabling
   - Prevent exporting reports without any HTML templates
   - Upgraded gems:
     - [gem]
