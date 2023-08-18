@@ -18,9 +18,21 @@ module Dradis
         provides :export, :rtp
         description 'Generate advanced HTML reports'
 
+        initializer 'dradis-html_export.disable_by_default' do
+          ActiveSupport.on_load(:configuration) do
+            unless ::Configuration.find_by_name('html_export:enabled')
+              Dradis::Plugins::HtmlExport::Engine.disable!
+            end
+          end
+        end
+
         initializer 'dradis-html_export.mount_engine' do
           Rails.application.routes.append do
-            mount Dradis::Plugins::HtmlExport::Engine => '/', as: :html_export
+            # Enabling/disabling integrations calls Rails.application.reload_routes! we need the enable
+            # check inside the block to ensure the routes can be re-enabled without a server restart
+            if Dradis::Plugins::HtmlExport::Engine.enabled?
+              mount Dradis::Plugins::HtmlExport::Engine => '/', as: :html_export
+            end
           end
         end
 
