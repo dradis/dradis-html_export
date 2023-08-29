@@ -28,8 +28,8 @@ module Dradis
           Rails.application.routes.append do
             # Enabling/disabling integrations calls Rails.application.reload_routes! we need the enable
             # check inside the block to ensure the routes can be re-enabled without a server restart
-            if Dradis::Plugins::HtmlExport::Engine.enabled?
-              mount Dradis::Plugins::HtmlExport::Engine => '/', as: :html_export
+            if Engine.enabled?
+              mount Engine => '/', as: :html_export
             end
           end
         end
