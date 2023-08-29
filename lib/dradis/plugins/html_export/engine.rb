@@ -18,11 +18,9 @@ module Dradis
         provides :export, :rtp
         description 'Generate advanced HTML reports'
 
-        initializer 'dradis-html_export.disable_by_default' do
-          ActiveSupport.on_load(:configuration) do
-            unless ::Configuration.find_by_name('html_export:enabled')
-              Dradis::Plugins::HtmlExport::Engine.disable!
-            end
+        if defined?(Dradis::Pro)
+          addon_settings :html_export do
+            settings.default_enabled = false
           end
         end
 
