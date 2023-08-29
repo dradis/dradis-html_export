@@ -18,11 +18,9 @@ module Dradis
         provides :export, :rtp
         description 'Generate advanced HTML reports'
 
-        if defined?(Dradis::Pro)
-          addon_settings :html_export do
-            settings.default_enabled = false
-          end
-        end
+        addon_settings :html_export do
+          settings.default_enabled = false
+        end if defined?(Dradis::Pro)
 
         initializer 'dradis-html_export.mount_engine' do
           Rails.application.routes.append do
