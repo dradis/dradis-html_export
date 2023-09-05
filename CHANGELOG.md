@@ -4,6 +4,7 @@ v4.10.0 (September 2023)
   - Fix the default templates
   - Implement handling of HTML exports directly from Tylium
   - Update views for compatibility with Font Awesome 6
+  - Update gemspec links
 
 v4.9.1 (June 2023)
   - Show HTML export tab by default in CE's export view
