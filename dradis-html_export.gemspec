@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Daniel Martin']
   spec.description   = 'Export to HTML plugin for the Dradis Framework'
   spec.summary       = 'Dradis HTML export plugin'
-  spec.homepage      = 'http://dradis.com'
+  spec.homepage      = 'https://dradis.com/support/guides/reporting/html_reports.html'
 
   spec.files         = `git ls-files`.split($\)
   spec.executables   = spec.files.grep(%r{^bin/}).map { |f| File.basename(f) }
