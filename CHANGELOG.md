@@ -1,19 +1,10 @@
-v4.10.0 ([month] 2023)
+v4.10.0 (September 2023)
   - Add support for enabling/disabling
   - Prevent exporting reports without any HTML templates
   - Fix the default templates
   - Implement handling of HTML exports directly from Tylium
   - Update views for compatibility with Font Awesome 6
-  - Upgraded gems:
-    - [gem]
-  - Bugs fixes:
-    - [future tense verb] [bug fix]
-    - Bug tracker items:
-      - [item]
-  - Security Fixes:
-    - High: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
-    - Medium: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
-    - Low: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
+  - Update gemspec links
 
 v4.9.1 (June 2023)
   - Show HTML export tab by default in CE's export view
@@ -23,7 +14,7 @@ v4.9.0 (June 2023)
 
 v4.8.0 (April 2023)
   - Add feature to select published/all records for export
- 
+
 v4.7.0 (February 2023)
   - No changes
 
