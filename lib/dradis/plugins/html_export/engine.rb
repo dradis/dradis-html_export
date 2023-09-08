@@ -23,7 +23,7 @@ module Dradis
         end if defined?(Dradis::Pro)
 
         initializer 'dradis-html_export.mount_engine' do
-          if (ActiveRecord::Base.connection rescue false) && Configuration.table_exists?
+          if (ActiveRecord::Base.connection rescue false) && ::Configuration.table_exists?
             Rails.application.routes.append do
               # Enabling/disabling integrations calls Rails.application.reload_routes! we need the enable
               # check inside the block to ensure the routes can be re-enabled without a server restart
