@@ -1,3 +1,6 @@
+v4.10.1 (September 2023)
+  - Fix mounting for routes when building the appliance from scratch
+
 v4.10.0 (September 2023)
   - Add support for enabling/disabling
   - Prevent exporting reports without any HTML templates
