@@ -23,11 +23,13 @@ module Dradis
         end if defined?(Dradis::Pro)
 
         initializer 'dradis-html_export.mount_engine' do
-          Rails.application.routes.append do
-            # Enabling/disabling integrations calls Rails.application.reload_routes! we need the enable
-            # check inside the block to ensure the routes can be re-enabled without a server restart
-            if Engine.enabled?
-              mount Engine => '/', as: :html_export
+          Rails.application.config.to_prepare do
+            Rails.application.routes.append do
+              # Enabling/disabling integrations calls Rails.application.reload_routes! we need the enable
+              # check inside the block to ensure the routes can be re-enabled without a server restart
+              if Engine.enabled?
+                mount Engine => '/', as: :html_export
+              end
             end
           end
         end
