@@ -1,3 +1,6 @@
+v4.11.0 (January 2024)
+  - No changes
+
 v4.10.1 (September 2023)
   - Fix mounting for routes when building the appliance from scratch
 
