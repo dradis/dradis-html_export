@@ -1,15 +1,5 @@
-[v#.#.#] ([month] [YYYY])
+v4.11.0 (January 2024)
   - Update initializer to work with Rails 7
-  - Upgraded gems:
-    - [gem]
-  - Bugs fixes:
-    - [future tense verb] [bug fix]
-    - Bug tracker items:
-      - [item]
-  - Security Fixes:
-    - High: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
-    - Medium: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
-    - Low: (Authenticated|Unauthenticated) (admin|author|contributor) [vulnerability description]
 
 v4.10.1 (September 2023)
   - Fix mounting for routes when building the appliance from scratch
