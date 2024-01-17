@@ -1,5 +1,5 @@
 v4.11.0 (January 2024)
-  - No changes
+  - Update initializer to work with Rails 7
 
 v4.10.1 (September 2023)
   - Fix mounting for routes when building the appliance from scratch
