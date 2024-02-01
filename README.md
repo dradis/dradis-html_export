@@ -5,7 +5,7 @@
 
 This plugin generates an HTML report for the notes in your [Dradis Framework](https://github.com/dradis/dradisframework) repository.
 
-The plugin requires Dradis 3.0 or higher.
+The add-on requires [Dradis CE](https://dradis.com/ce/) > 3.0, or [Dradis Pro](https://dradis.com/).
 
 
 ## More information
