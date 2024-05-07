@@ -2,7 +2,7 @@
   <% if Dradis::Plugins::HtmlExport::TemplatePresenter.templates.any? %>
     <%= form_tag html_export.project_report_path(current_project) do %>
       <h4 class="header-underline">Choose a template</h4>
-      <p>Please choose one of the templates available for this plugin (find them in <code>.<%= Dradis::Plugins::HtmlExport::TemplatePresenter.templates_dir[Rails.root.to_s.length..-1] %></code>)</p>
+      <p>Please choose one of the templates available for this plugin (find them in <code>./templates/reports/html_export</code>)</p>
     
       <% Dradis::Plugins::HtmlExport::TemplatePresenter.each_template do |template| %>
         <% present(template, Dradis::Plugins::HtmlExport::TemplatePresenter) do |template_presenter| %>
