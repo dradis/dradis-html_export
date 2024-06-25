@@ -24,6 +24,9 @@ module Dradis
 
         initializer 'dradis-html_export.mount_engine' do
           Rails.application.reloader.to_prepare do
+            # By default, this engine is loaded into the main app. So, upon app
+            # initialization, we first check if the DB is loaded and the Configuration
+            # table has been created, before checking if the engine is enabled
             if (ActiveRecord::Base.connection rescue false) && ::Configuration.table_exists?
               Rails.application.routes.append do
                 # Enabling/disabling integrations calls Rails.application.reload_routes! we need the enable
