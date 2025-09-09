@@ -109,7 +109,7 @@ module Dradis
           yield(destination_path)
         ensure
           file_path = Rails.root.join("app/views/tmp/#{filename}")
-          File.delete(file_path) if File.exists?(file_path)
+          File.delete(file_path) if File.exist?(file_path)
         end
       end
     end
