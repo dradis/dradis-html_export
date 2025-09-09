@@ -27,7 +27,7 @@ class HtmlExportTasks < Thor
     end
 
     if template = options.template
-      shell.error("Template file doesn't exist") && exit(1) unless File.exists?(template)
+      shell.error("Template file doesn't exist") && exit(1) unless File.exist?(template)
       task_options[:template] = template
     end
 
