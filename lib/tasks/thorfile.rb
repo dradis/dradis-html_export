@@ -13,7 +13,7 @@ class HtmlExportTasks < Thor
     # The options we'll end up passing to the Processor class
     opts = {}
 
-    report_path = options.output || Rails.root
+    report_path = options.output || Rails.root.join('tmp')
     unless report_path.to_s =~ /\.html\z/
       date = DateTime.now.strftime("%Y-%m-%d")
       base_filename = "dradis-report_#{date}.html"
