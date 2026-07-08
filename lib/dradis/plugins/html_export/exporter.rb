@@ -16,7 +16,7 @@ module Dradis
         private
         def log_report
           logger.debug { "Report title: #{title}" }
-          logger.debug { "Template properties define a sort field: #{sort_field}" }
+          logger.debug { "Template properties define sort fields: #{template_properties&.sort_fields}" }
 
           if issues&.any?
             logger.debug { "Found #{issues.count} issues affecting #{nodes.count} nodes" }
@@ -51,21 +51,17 @@ module Dradis
             end
         end
 
-        def sort_field
-          @sort_field ||= begin
+        def template_properties
+          @template_properties ||= begin
             template_path = options.fetch(:template)
-            properties = ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
-            properties&.sort_field
+            ::ReportTemplateProperties.find_by_template_file(File.basename(template_path)) rescue nil
           end
         end
 
         def sort_issues(unsorted_issues)
-          return unsorted_issues unless unsorted_issues.any? && sort_field
+          return unsorted_issues unless unsorted_issues.any? && template_properties
 
-          # FIXME: Assume the Field :type is :number, so cast .to_f and sort
-          unsorted_issues.sort do |a, b|
-            b.fields.fetch(sort_field, '0').to_f <=> a.fields.fetch(sort_field, '0').to_f
-          end
+          template_properties.sort_issues(unsorted_issues)
         end
 
         def tags
