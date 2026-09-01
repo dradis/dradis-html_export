@@ -28,6 +28,8 @@ module Dradis
           logger.debug { "Found #{notes.count} notes assigned to the reporting category." }
         end
 
+        # We can't use just 'scope' here because it conflicts with
+        # the Dradis::Plugins::Export::Base scope attribute
         def export_scope
           content_service.scope
         end
