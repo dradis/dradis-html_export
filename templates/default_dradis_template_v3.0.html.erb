@@ -90,14 +90,14 @@
             <div class="row">
               <div class="col-md-3 evidence-sidebar">
                 <ul class="nav nav-list evidence-sidenav">
-                <% issue.evidence_by_node(scope).each do |node, instances| %>
+                <% issue.evidence_by_node(export_scope).each do |node, instances| %>
                   <li><a href="#evidence_for_<%= node.id %>"><i class="glyphicon glyphicon-<%= ['folder-close','hdd'][node.type_id] %>"></i> <%= node.label %> (<%= pluralize instances.count, 'instance' %>)</a></li>
                 <% end %>
                 </ul>
               </div>
 
               <div class="col-md-9">
-                <% issue.evidence_by_node(scope).each do |node, instances| %>
+                <% issue.evidence_by_node(export_scope).each do |node, instances| %>
                   <section id="evidence_for_#{node.id}">
                     <% if instances.count == 1 %>
                       <div class="content-textile" id="node_<%= node.id %>_instance_0">

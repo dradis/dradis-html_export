@@ -14,6 +14,7 @@ module Dradis
         end
 
         private
+
         def log_report
           logger.debug { "Report title: #{title}" }
           logger.debug { "Template properties define sort fields: #{template_properties&.sort_fields}" }
@@ -27,12 +28,12 @@ module Dradis
           logger.debug { "Found #{notes.count} notes assigned to the reporting category." }
         end
 
-        def nodes
-          @nodes ||= content_service.all_evidence.map(&:node).uniq
+        def export_scope
+          content_service.scope
         end
 
-        def scope
-          content_service.scope
+        def nodes
+          @nodes ||= content_service.all_evidence.map(&:node).uniq
         end
 
         def notes
