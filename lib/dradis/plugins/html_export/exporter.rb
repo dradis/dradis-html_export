@@ -31,10 +31,8 @@ module Dradis
           @nodes ||= content_service.all_evidence.map(&:node).uniq
         end
 
-        # Returns evidence for the given issue grouped by node and scoped based on the selected export scope.
-        # Used in the template to display evidence for each issue.
-        def evidence_by_node(issue)
-          issue.evidence_by_node(content_service.scope)
+        def scope
+          content_service.scope
         end
 
         def notes
