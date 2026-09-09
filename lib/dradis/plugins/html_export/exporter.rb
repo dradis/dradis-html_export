@@ -14,6 +14,7 @@ module Dradis
         end
 
         private
+
         def log_report
           logger.debug { "Report title: #{title}" }
           logger.debug { "Template properties define sort fields: #{template_properties&.sort_fields}" }
@@ -28,9 +29,7 @@ module Dradis
         end
 
         def nodes
-          # FIXME: This is an ugly piece of code and the list of nodes should
-          # come from the ContentService.
-          @nodes ||= issues.map(&:evidence).flatten.map(&:node).uniq
+          @nodes ||= content_service.all_evidence.map(&:node).uniq
         end
 
         def notes

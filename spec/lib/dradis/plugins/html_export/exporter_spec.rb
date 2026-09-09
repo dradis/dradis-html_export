@@ -73,6 +73,49 @@ describe Dradis::Plugins::HtmlExport::Exporter do
     end
   end
 
+  context 'evidence scope' do
+    let(:node) { create(:node, project: project) }
+    let(:issue) { create(:issue, node: project.issue_library, state: :published) }
+    let!(:published_evidence) do
+      create(:evidence, issue: issue, node: node, state: :published, content: "#[Location]#\nPublished evidence\n")
+    end
+    let!(:draft_evidence) do
+      create(:evidence, issue: issue, node: node, state: :draft, content: "#[Location]#\nDraft evidence\n")
+    end
+
+    let(:export_options) do
+      {
+        project_id: project.id,
+        scope: scope,
+        template: Dradis::Plugins::HtmlExport::Engine.root.join(
+          'templates/default_dradis_template_v3.0.html.erb'
+        )
+      }
+    end
+
+    context 'published scope' do
+      let(:scope) { :published }
+
+      it 'only includes published evidence' do
+        html = exporter.export
+
+        expect(html).to include('Published evidence')
+        expect(html).not_to include('Draft evidence')
+      end
+    end
+
+    context 'all scope' do
+      let(:scope) { :all }
+
+      it 'includes evidence regardless of state' do
+        html = exporter.export
+
+        expect(html).to include('Published evidence')
+        expect(html).to include('Draft evidence')
+      end
+    end
+  end
+
   context 'liquid' do
     let(:export_options) do
       {

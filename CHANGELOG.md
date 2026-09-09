@@ -1,3 +1,6 @@
+[v#.#.#] ([month] [YYYY])
+  - Only include Published Evidence in exports when the export scope is set to Published
+
 v5.3.0 (August 2026)
   - No changes
 
